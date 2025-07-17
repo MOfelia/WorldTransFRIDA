@@ -38,7 +38,7 @@
 		<dim name="Renewable_Age_Group" size="7"/>
 		<dim name="Run" size="1"/>
 	</dimensions>
-	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="suggesting" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_secure_mode="true" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="true" rifp="true">
+	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_secure_mode="true" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="false" rifp="true">
 		<isee:ignored_words>
 			<isee:ignored_word>WolrdTrans</isee:ignored_word>
 			<isee:ignored_word>WorldTrans</isee:ignored_word>
@@ -17518,7 +17518,8 @@ from MIND</doc>
 				<dimensions>
 					<dim name="Run"/>
 				</dimensions>
-				<eqn>Initial_Wind_Energy_Full_Load_Hours*(1+ (Onshore_wind_speed_growth_rate/&quot;Absolute_historical_wind_speed_(1981–2011)&quot;)*(TIME-STARTTIME))^3</eqn>
+				<eqn>Initial_Wind_Energy_Full_Load_Hours*(1+ (Onshore_wind_speed_anomaly/Absolute_historical_wind_speed_1981_to_2011))^3</eqn>
+				<format precision="0.01"/>
 				<range min="1650" max="1850"/>
 				<units>hours/year</units>
 			</aux>
@@ -17532,12 +17533,15 @@ from MIND</doc>
 				<range min="1650" max="1850"/>
 				<units>hours/year</units>
 			</aux>
-			<aux name="Onshore wind speed growth rate">
+			<aux name="Onshore wind speed anomaly">
 				<doc>Increment of wind speed obtained from: Monthly variation and correlation analysis of global temperature and wind resources under climate change (https://www.sciencedirect.com/science/article/pii/S0196890423003382#s0010) </doc>
-				<eqn>0.0588*Surface_Temperature_Anomaly_1[1]</eqn>
-				<units>m/s/deg C</units>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>conversion_factor_between_surface_temperature_anomaly_and_wind_speed*Surface_Temperature_Anomaly_1</eqn>
+				<units>m/s</units>
 			</aux>
-			<aux name="Absolute historical\nwind speed (1981–2011)">
+			<aux name="Absolute historical\nwind speed 1981 to 2011">
 				<doc>https://link.springer.com/article/10.1007/s00382-017-3997-y/tables/1
 Changes in terrestrial near-surface wind speed and their possible causes: an overview</doc>
 				<eqn>3.5</eqn>
@@ -17553,6 +17557,10 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 			<aux name="Absolute historical\noffshore wind\nspeed (1981–2011)">
 				<eqn>3.5</eqn>
 				<units>m/s</units>
+			</aux>
+			<aux name="conversion factor between surface\ntemperature anomaly\nand wind speed">
+				<eqn>0.058</eqn>
+				<units>m/s/deg C</units>
 			</aux>
 		</variables>
 		<views>
@@ -17603,7 +17611,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="818.333" isee:scroll_y="388.889" zoom="180" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="705.714" isee:scroll_y="353.571" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17937,18 +17945,18 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 					<from>Initial_Wind_Energy_Full_Load_Hours_1</from>
 					<to>Wind_Energy_Full_Load_Hours_Offshore</to>
 				</connector>
-				<aux x="1207.17" y="625.253" name="Onshore wind speed growth rate"/>
+				<aux x="1207.17" y="625.253" name="Onshore wind speed anomaly"/>
 				<connector uid="63" color="#C061CB" font_color="#C061CB" angle="151.008">
 					<from>Offshore_wind_speed_growth_rate</from>
 					<to>Wind_Energy_Full_Load_Hours_Offshore</to>
 				</connector>
 				<connector uid="64" color="#8FF0A4" font_color="#8FF0A4" angle="162.823">
-					<from>Onshore_wind_speed_growth_rate</from>
+					<from>Onshore_wind_speed_anomaly</from>
 					<to>Wind_Energy_Full_Load_Hours_Onshore</to>
 				</connector>
-				<aux x="1111.5" y="550.373" name="Absolute historical\nwind speed (1981–2011)"/>
+				<aux x="1111.5" y="550.373" name="Absolute historical\nwind speed 1981 to 2011"/>
 				<connector uid="65" color="#8FF0A4" font_color="#8FF0A4" angle="203.759">
-					<from>&quot;Absolute_historical_wind_speed_(1981–2011)&quot;</from>
+					<from>Absolute_historical_wind_speed_1981_to_2011</from>
 					<to>Wind_Energy_Full_Load_Hours_Onshore</to>
 				</connector>
 				<connector uid="66" color="#8FF0A4" font_color="#8FF0A4" angle="175.335">
@@ -17962,7 +17970,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<aux font_style="italic" font_weight="bold" x="1400" y="662" name="Surface Temperature Anomaly 1"/>
 				<connector uid="68" color="#8FF0A4" font_color="#8FF0A4" angle="146.782">
 					<from>Surface_Temperature_Anomaly_1</from>
-					<to>Onshore_wind_speed_growth_rate</to>
+					<to>Onshore_wind_speed_anomaly</to>
 				</connector>
 				<connector uid="69" color="#C061CB" font_color="#C061CB" angle="204.611">
 					<from>Surface_Temperature_Anomaly_1</from>
@@ -17972,6 +17980,11 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<connector uid="70" color="#C061CB" font_color="#C061CB" angle="127.361">
 					<from>&quot;Absolute_historical_offshore_wind_speed_(1981–2011)&quot;</from>
 					<to>Wind_Energy_Full_Load_Hours_Offshore</to>
+				</connector>
+				<aux x="1317.86" y="509.503" name="conversion factor between surface\ntemperature anomaly\nand wind speed"/>
+				<connector uid="71" angle="215.524">
+					<from>conversion_factor_between_surface_temperature_anomaly_and_wind_speed</from>
+					<to>Onshore_wind_speed_anomaly</to>
 				</connector>
 			</view>
 		</views>

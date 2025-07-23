@@ -17036,7 +17036,7 @@ These parameters are set so that the effect of having to build grid energy stora
 				<dimensions>
 					<dim name="Run"/>
 				</dimensions>
-				<eqn>Wind_Energy_Full_Load_Hours_Onshore+Wind_Energy_Full_Load_Hours_Offshore</eqn>
+				<eqn>Wind_Energy_Full_Load_Hours_Onshore-Full_Load_Hours_loss</eqn>
 				<range min="1650" max="1850"/>
 				<units>hours/year</units>
 			</aux>
@@ -17319,7 +17319,7 @@ from MIND</doc>
 				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
 				<units>c$/Year</units>
 			</aux>
-			<aux name="extra capacity needed for delta Energy">
+			<aux name="extra capacity needed\nfor delta Energy">
 				<dimensions>
 					<dim name="Run"/>
 				</dimensions>
@@ -17494,24 +17494,6 @@ from MIND</doc>
 				<range min="1650" max="1850"/>
 				<units>hours/year</units>
 			</aux>
-			<aux name="Wind Energy\nFull Load Hours Offshore">
-				<doc>${External Parameter}
-from MIND</doc>
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Initial_Wind_Energy_Full_Load_Hours_1*(1+ (Offshore_wind_speed_growth_rate/&quot;Absolute_historical_offshore_wind_speed_(1981–2011)&quot;)*(TIME-STARTTIME))^3</eqn>
-				<range min="1650" max="1850"/>
-				<units>hours/year</units>
-			</aux>
-			<aux name="Offshore wind speed growth rate">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>0.63*Surface_Temperature_Anomaly_1[Run]</eqn>
-				<range min="-1.000013" max="0.999987"/>
-				<units>m/s/year</units>
-			</aux>
 			<aux name="Wind Energy\nFull Load Hours Onshore">
 				<doc>${External Parameter}
 </doc>
@@ -17520,16 +17502,6 @@ from MIND</doc>
 				</dimensions>
 				<eqn>Initial_Wind_Energy_Full_Load_Hours*(1+ (Onshore_wind_speed_anomaly/Absolute_historical_wind_speed_1981_to_2011))^3</eqn>
 				<format precision="0.01"/>
-				<range min="1650" max="1850"/>
-				<units>hours/year</units>
-			</aux>
-			<aux name="Initial Wind Energy\nFull Load Hours 1">
-				<doc>${External Parameter}
-from MIND</doc>
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>0</eqn>
 				<range min="1650" max="1850"/>
 				<units>hours/year</units>
 			</aux>
@@ -17554,13 +17526,35 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
 				<units>deg C</units>
 			</aux>
-			<aux name="Absolute historical\noffshore wind\nspeed (1981–2011)">
-				<eqn>3.5</eqn>
-				<units>m/s</units>
-			</aux>
 			<aux name="conversion factor between surface\ntemperature anomaly\nand wind speed">
-				<eqn>0.058</eqn>
+				<eqn>0.058{0.001, 0.1}</eqn>
 				<units>m/s/deg C</units>
+			</aux>
+			<aux name="Extreme wind speed\nShape parameter">
+				<doc>Calculated from historical CMIP6 models</doc>
+				<eqn>-0.734424758147721</eqn>
+			</aux>
+			<aux name="Extreme wind speed\nScale parameter">
+				<doc>Calculated from historical CMIP6 models</doc>
+				<eqn>2.6516507152056903</eqn>
+			</aux>
+			<aux name="Probability of\nlow wind extremes">
+				<eqn> 1 - ((1+ (Extreme_wind_speed_Shape_parameter*0.1)/Extreme_wind_speed_Scale_parameter)^(-1/Extreme_wind_speed_Shape_parameter))</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Number of wind extremes">
+				<doc>the annual frequency of extreme long-duration events peaked at 5.8 in 2011, while bottoming at 4.1 in 1983</doc>
+				<eqn>4.1</eqn>
+				<units>events/year</units>
+			</aux>
+			<aux name="Increase rate of\nFrequency of wind extremes">
+				<doc>the annual frequency of extreme long-duration events peaked at 5.8 in 2011, while bottoming at 4.1 in 1983</doc>
+				<eqn>0.026</eqn>
+				<units>events/year</units>
+			</aux>
+			<aux name="Full Load Hours loss">
+				<eqn>Probability_of_low_wind_extremes*Wind_Energy_Full_Load_Hours_Onshore[1]</eqn>
+				<units>hours/year</units>
 			</aux>
 		</variables>
 		<views>
@@ -17611,7 +17605,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="705.714" isee:scroll_y="353.571" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="72" isee:scroll_y="103" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17680,7 +17674,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 					<to>Wind_Energy_Capacity</to>
 				</connector>
 				<aux label_angle="258.411" x="672.64" y="563.363" name="Renewable Energy Capacity Decay Fractions"/>
-				<aux label_side="bottom" x="937.5" y="340.823" name="Renewable Energy Capacity\nVintage Duration"/>
+				<aux label_side="bottom" x="813.5" y="308.68" name="Renewable Energy Capacity\nVintage Duration"/>
 				<aux background="#FFAAFF" x="162.5" y="721.216" name="Installation Cost\nof Wind capacity"/>
 				<aux color="black" font_color="black" x="276.25" y="685.403" name="Wind Energy\nLearning Rate"/>
 				<aux color="blue" x="92.22" y="900.523" name="Renewable Energy\nFloor Costs"/>
@@ -17782,8 +17776,8 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 					<from>Investments_in_Solar_and_Wind_Energy_Capacity</from>
 					<to>Renewable_Energy_Capacity_Construction</to>
 				</connector>
-				<text_box uid="26" x="928.334" y="442.503" width="260" height="58">storage goes here will increase the statistical full load hours</text_box>
-				<aux x="785.71" y="780" name="extra capacity needed for delta Energy"/>
+				<text_box uid="26" x="966.905" y="29.5714" width="260" height="58">storage goes here will increase the statistical full load hours</text_box>
+				<aux x="785.71" y="780" name="extra capacity needed\nfor delta Energy"/>
 				<aux font_style="italic" font_weight="bold" x="905.667" y="752.023" name="deltaEnergy for costs"/>
 				<connector uid="27" angle="229.172">
 					<from>Wind_Energy_Full_Load_Hours</from>
@@ -17937,25 +17931,14 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 					<from>Initial_Wind_Energy_Full_Load_Hours</from>
 					<to>Wind_Energy_Full_Load_Hours_Onshore</to>
 				</connector>
-				<aux label_side="bottom" x="1040.14" y="706" name="Wind Energy\nFull Load Hours Offshore"/>
-				<aux label_angle="338.456" x="1207.17" y="717.545" name="Offshore wind speed growth rate"/>
 				<aux label_side="bottom" x="998" y="631.253" name="Wind Energy\nFull Load Hours Onshore"/>
-				<aux label_side="right" label_angle="315" x="1006.5" y="779.023" name="Initial Wind Energy\nFull Load Hours 1"/>
-				<connector uid="61" color="#C061CB" font_color="#C061CB" angle="53.4867">
-					<from>Initial_Wind_Energy_Full_Load_Hours_1</from>
-					<to>Wind_Energy_Full_Load_Hours_Offshore</to>
-				</connector>
 				<aux x="1207.17" y="625.253" name="Onshore wind speed anomaly"/>
-				<connector uid="63" color="#C061CB" font_color="#C061CB" angle="151.008">
-					<from>Offshore_wind_speed_growth_rate</from>
-					<to>Wind_Energy_Full_Load_Hours_Offshore</to>
-				</connector>
 				<connector uid="64" color="#8FF0A4" font_color="#8FF0A4" angle="162.823">
 					<from>Onshore_wind_speed_anomaly</from>
 					<to>Wind_Energy_Full_Load_Hours_Onshore</to>
 				</connector>
-				<aux x="1111.5" y="550.373" name="Absolute historical\nwind speed 1981 to 2011"/>
-				<connector uid="65" color="#8FF0A4" font_color="#8FF0A4" angle="203.759">
+				<aux x="1109.5" y="541.553" name="Absolute historical\nwind speed 1981 to 2011"/>
+				<connector uid="65" color="#8FF0A4" font_color="#8FF0A4" angle="207.101">
 					<from>Absolute_historical_wind_speed_1981_to_2011</from>
 					<to>Wind_Energy_Full_Load_Hours_Onshore</to>
 				</connector>
@@ -17963,28 +17946,41 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 					<from>Wind_Energy_Full_Load_Hours_Onshore</from>
 					<to>Wind_Energy_Full_Load_Hours</to>
 				</connector>
-				<connector uid="67" color="#C061CB" font_color="#C061CB" angle="163.177">
-					<from>Wind_Energy_Full_Load_Hours_Offshore</from>
-					<to>Wind_Energy_Full_Load_Hours</to>
-				</connector>
-				<aux font_style="italic" font_weight="bold" x="1400" y="662" name="Surface Temperature Anomaly 1"/>
-				<connector uid="68" color="#8FF0A4" font_color="#8FF0A4" angle="146.782">
+				<aux font_style="italic" font_weight="bold" x="1413.57" y="608.823" name="Surface Temperature Anomaly 1"/>
+				<connector uid="68" color="#8FF0A4" font_color="#8FF0A4" angle="162.123">
 					<from>Surface_Temperature_Anomaly_1</from>
 					<to>Onshore_wind_speed_anomaly</to>
 				</connector>
-				<connector uid="69" color="#C061CB" font_color="#C061CB" angle="204.611">
-					<from>Surface_Temperature_Anomaly_1</from>
-					<to>Offshore_wind_speed_growth_rate</to>
-				</connector>
-				<aux label_side="bottom" x="1180.5" y="792.817" name="Absolute historical\noffshore wind\nspeed (1981–2011)"/>
-				<connector uid="70" color="#C061CB" font_color="#C061CB" angle="127.361">
-					<from>&quot;Absolute_historical_offshore_wind_speed_(1981–2011)&quot;</from>
-					<to>Wind_Energy_Full_Load_Hours_Offshore</to>
-				</connector>
-				<aux x="1317.86" y="509.503" name="conversion factor between surface\ntemperature anomaly\nand wind speed"/>
-				<connector uid="71" angle="215.524">
+				<aux x="1257.86" y="541.553" name="conversion factor between surface\ntemperature anomaly\nand wind speed"/>
+				<connector uid="71" color="#8FF0A4" font_color="#8FF0A4" angle="228.044">
 					<from>conversion_factor_between_surface_temperature_anomaly_and_wind_speed</from>
 					<to>Onshore_wind_speed_anomaly</to>
+				</connector>
+				<aux label_side="top" x="938.857" y="397.857" name="Extreme wind speed\nShape parameter"/>
+				<aux label_side="right" label_angle="45" x="1003.14" y="397.857" name="Extreme wind speed\nScale parameter"/>
+				<aux x="970.143" y="423.571" name="Probability of\nlow wind extremes"/>
+				<connector uid="72" color="#8FF0A4" font_color="#8FF0A4" angle="320.583">
+					<from>Extreme_wind_speed_Shape_parameter</from>
+					<to>Probability_of_low_wind_extremes</to>
+				</connector>
+				<connector uid="73" color="#8FF0A4" font_color="#8FF0A4" angle="202.698">
+					<from>Extreme_wind_speed_Scale_parameter</from>
+					<to>Probability_of_low_wind_extremes</to>
+				</connector>
+				<aux x="1099.14" y="457.932" name="Number of wind extremes"/>
+				<aux x="1203.6" y="422.253" name="Increase rate of\nFrequency of wind extremes"/>
+				<aux x="919.5" y="502.571" name="Full Load Hours loss"/>
+				<connector uid="76" color="#8FF0A4" font_color="#8FF0A4" angle="212.028">
+					<from>Probability_of_low_wind_extremes</from>
+					<to>Full_Load_Hours_loss</to>
+				</connector>
+				<connector uid="79" angle="144.27">
+					<from>Wind_Energy_Full_Load_Hours_Onshore</from>
+					<to>Full_Load_Hours_loss</to>
+				</connector>
+				<connector uid="80" color="#8FF0A4" font_color="#8FF0A4" angle="269.168">
+					<from>Full_Load_Hours_loss</from>
+					<to>Wind_Energy_Full_Load_Hours</to>
 				</connector>
 			</view>
 		</views>

@@ -2151,7 +2151,7 @@ Change_in_energy_used_for_Heating_due_to_climate_change_in_MWh + Change_in_energ
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="2" isee:page_rows="3" isee:scroll_y="301" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="133" isee:scroll_y="480" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -14462,7 +14462,7 @@ Wind_Energy_Output+
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="66.6667" isee:scroll_y="166.667" zoom="180" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="66.6667" isee:scroll_y="266.667" zoom="180" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17527,19 +17527,15 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<units>deg C</units>
 			</aux>
 			<aux name="conversion factor between surface\ntemperature anomaly\nand wind speed">
+				<doc>Estimated from https://www.sciencedirect.com/science/article/pii/S0196890423003382#s0045
+
+if  the global temperature has increased on average by 0.34 °C/10 a from 1989 to 2021, and the global average wind increased by 0.02 m/(s⋅10 a)
+</doc>
 				<eqn>0.058{0.001, 0.1}</eqn>
 				<units>m/s/deg C</units>
 			</aux>
-			<aux name="Extreme wind speed\nShape parameter">
-				<doc>Calculated from historical CMIP6 models</doc>
-				<eqn>-0.734424758147721</eqn>
-			</aux>
-			<aux name="Extreme wind speed\nScale parameter">
-				<doc>Calculated from historical CMIP6 models</doc>
-				<eqn>2.6516507152056903</eqn>
-			</aux>
-			<aux name="Probability of\nlow wind extremes">
-				<eqn> 1 - ((1+ (Extreme_wind_speed_Shape_parameter*0.1)/Extreme_wind_speed_Scale_parameter)^(-1/Extreme_wind_speed_Shape_parameter))</eqn>
+			<aux name="Frequency of\nlow wind extremes">
+				<eqn>-0*Surface_Temperature_Anomaly_1[1] +0.05</eqn>
 				<units>dmnl</units>
 			</aux>
 			<aux name="Number of wind extremes">
@@ -17553,8 +17549,12 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<units>events/year</units>
 			</aux>
 			<aux name="Full Load Hours loss">
-				<eqn>Probability_of_low_wind_extremes*Wind_Energy_Full_Load_Hours_Onshore[1]</eqn>
+				<eqn>(Duration_of_low_wind_extremes+Frequency_of_low_wind_extremes)*Wind_Energy_Full_Load_Hours_Onshore[1]</eqn>
 				<units>hours/year</units>
+			</aux>
+			<aux name="Duration of\nlow wind extremes">
+				<eqn>0.04*Surface_Temperature_Anomaly_1[1]-0.01</eqn>
+				<units>dmnl</units>
 			</aux>
 		</variables>
 		<views>
@@ -17605,7 +17605,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="72" isee:scroll_y="103" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="749.286" isee:scroll_y="240" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17778,12 +17778,12 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				</connector>
 				<text_box uid="26" x="966.905" y="29.5714" width="260" height="58">storage goes here will increase the statistical full load hours</text_box>
 				<aux x="785.71" y="780" name="extra capacity needed\nfor delta Energy"/>
-				<aux font_style="italic" font_weight="bold" x="905.667" y="752.023" name="deltaEnergy for costs"/>
+				<aux font_style="italic" font_weight="bold" label_side="bottom" x="803.71" y="842.143" name="deltaEnergy for costs"/>
 				<connector uid="27" angle="229.172">
 					<from>Wind_Energy_Full_Load_Hours</from>
 					<to>extra_capacity_needed_for_delta_Energy</to>
 				</connector>
-				<connector uid="28" angle="205.522">
+				<connector uid="28" angle="118.548">
 					<from>deltaEnergy_for_costs</from>
 					<to>extra_capacity_needed_for_delta_Energy</to>
 				</connector>
@@ -17814,7 +17814,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 					<from>cost_of_extra_capacity_needed_for_delta_Energy</from>
 					<to>Cost_of_Extra_Energy_Output_through_Capital_per_Unit</to>
 				</connector>
-				<connector uid="36" angle="241.622">
+				<connector uid="36" angle="291.237">
 					<from>deltaEnergy_for_costs</from>
 					<to>Cost_of_Extra_Energy_Output_through_Capital_per_Unit</to>
 				</connector>
@@ -17956,31 +17956,34 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 					<from>conversion_factor_between_surface_temperature_anomaly_and_wind_speed</from>
 					<to>Onshore_wind_speed_anomaly</to>
 				</connector>
-				<aux label_side="top" x="938.857" y="397.857" name="Extreme wind speed\nShape parameter"/>
-				<aux label_side="right" label_angle="45" x="1003.14" y="397.857" name="Extreme wind speed\nScale parameter"/>
-				<aux x="970.143" y="423.571" name="Probability of\nlow wind extremes"/>
-				<connector uid="72" color="#8FF0A4" font_color="#8FF0A4" angle="320.583">
-					<from>Extreme_wind_speed_Shape_parameter</from>
-					<to>Probability_of_low_wind_extremes</to>
-				</connector>
-				<connector uid="73" color="#8FF0A4" font_color="#8FF0A4" angle="202.698">
-					<from>Extreme_wind_speed_Scale_parameter</from>
-					<to>Probability_of_low_wind_extremes</to>
-				</connector>
+				<aux x="970.143" y="423.571" name="Frequency of\nlow wind extremes"/>
 				<aux x="1099.14" y="457.932" name="Number of wind extremes"/>
 				<aux x="1203.6" y="422.253" name="Increase rate of\nFrequency of wind extremes"/>
 				<aux x="919.5" y="502.571" name="Full Load Hours loss"/>
 				<connector uid="76" color="#8FF0A4" font_color="#8FF0A4" angle="212.028">
-					<from>Probability_of_low_wind_extremes</from>
+					<from>Frequency_of_low_wind_extremes</from>
 					<to>Full_Load_Hours_loss</to>
 				</connector>
-				<connector uid="79" angle="144.27">
+				<connector uid="79" color="#8FF0A4" font_color="#8FF0A4" angle="144.27">
 					<from>Wind_Energy_Full_Load_Hours_Onshore</from>
 					<to>Full_Load_Hours_loss</to>
 				</connector>
 				<connector uid="80" color="#8FF0A4" font_color="#8FF0A4" angle="269.168">
 					<from>Full_Load_Hours_loss</from>
 					<to>Wind_Energy_Full_Load_Hours</to>
+				</connector>
+				<connector uid="81" angle="67.5264">
+					<from>Surface_Temperature_Anomaly_1</from>
+					<to>Frequency_of_low_wind_extremes</to>
+				</connector>
+				<aux x="887.667" y="423.571" name="Duration of\nlow wind extremes"/>
+				<connector uid="82" angle="69.8569">
+					<from>Surface_Temperature_Anomaly_1</from>
+					<to>Duration_of_low_wind_extremes</to>
+				</connector>
+				<connector uid="83" angle="308.562">
+					<from>Duration_of_low_wind_extremes</from>
+					<to>Full_Load_Hours_loss</to>
 				</connector>
 			</view>
 		</views>
@@ -18005,7 +18008,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<non_negative/>
 				<units>dmnl</units>
 			</stock>
-			<flow name="Deviations from one in Energy Balance">
+			<flow name="Deviations from one\nin Energy Balance">
 				<dimensions>
 					<dim name="Run"/>
 				</dimensions>
@@ -18020,7 +18023,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
 				<units>TWh/Year</units>
 			</aux>
-			<stock name="Cumulative Energy Supply Missmatch">
+			<stock name="Cumulative Energy\nSupply Missmatch">
 				<dimensions>
 					<dim name="Run"/>
 				</dimensions>
@@ -18112,7 +18115,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:scroll_y="100" zoom="180" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -18153,7 +18156,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 				</style>
 				<aux color="blue" background="#FFAA00" x="335.803" y="173.958" name="Energy Balance"/>
 				<stock x="524.545" y="166.347" name="Cumulative Deviations of Energy Balance from 1"/>
-				<flow x="463.949" y="174.918" name="Deviations from one in Energy Balance">
+				<flow x="463.949" y="174.918" name="Deviations from one\nin Energy Balance">
 					<pts>
 						<pt x="425.853" y="174.918"/>
 						<pt x="502.045" y="174.918"/>
@@ -18168,7 +18171,7 @@ Changes in terrestrial near-surface wind speed and their possible causes: an ove
 					<from>Total_Energy_Output</from>
 					<to>Energy_Balance</to>
 				</connector>
-				<stock x="148" y="184.292" name="Cumulative Energy Supply Missmatch"/>
+				<stock x="148" y="184.292" name="Cumulative Energy\nSupply Missmatch"/>
 				<flow x="202.75" y="186" name="Energy Supply\nMissmatch">
 					<pts>
 						<pt x="247" y="186"/>

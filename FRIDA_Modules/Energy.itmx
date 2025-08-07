@@ -3926,7 +3926,7 @@ ELSE
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="768" page_height="588" isee:page_cols="8" isee:page_rows="8" isee:scroll_x="783" isee:scroll_y="1087.5" zoom="200" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="8" isee:page_rows="8" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17535,26 +17535,26 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<units>m/s/deg C</units>
 			</aux>
 			<aux name="Frequency of\nlow wind extremes">
-				<eqn>-0*Surface_Temperature_Anomaly_1[1] +0.05</eqn>
+				<doc>Regression line with data from: Prolonged wind droughts in a warming climate threaten global wind power security</doc>
+				<eqn>-4.125677361767771e-34*Surface_Temperature_Anomaly_1[1] +0.05</eqn>
 				<units>dmnl</units>
-			</aux>
-			<aux name="Number of wind extremes">
-				<doc>the annual frequency of extreme long-duration events peaked at 5.8 in 2011, while bottoming at 4.1 in 1983</doc>
-				<eqn>4.1</eqn>
-				<units>events/year</units>
-			</aux>
-			<aux name="Increase rate of\nFrequency of wind extremes">
-				<doc>the annual frequency of extreme long-duration events peaked at 5.8 in 2011, while bottoming at 4.1 in 1983</doc>
-				<eqn>0.026</eqn>
-				<units>events/year</units>
 			</aux>
 			<aux name="Full Load Hours loss">
 				<eqn>(Duration_of_low_wind_extremes+Frequency_of_low_wind_extremes)*Wind_Energy_Full_Load_Hours_Onshore[1]</eqn>
 				<units>hours/year</units>
 			</aux>
 			<aux name="Duration of\nlow wind extremes">
+				<doc>Regression line with data from: Prolonged wind droughts in a warming climate threaten global wind power security</doc>
 				<eqn>0.04*Surface_Temperature_Anomaly_1[1]-0.01</eqn>
 				<units>dmnl</units>
+			</aux>
+			<aux name="CAPEX">
+				<eqn>1281,84666666667</eqn>
+				<units>$/kW</units>
+			</aux>
+			<aux name="OPEX">
+				<eqn>5,62416666666667</eqn>
+				<units>$/kW</units>
 			</aux>
 		</variables>
 		<views>
@@ -17605,7 +17605,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="749.286" isee:scroll_y="240" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="102.5" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17957,8 +17957,6 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<to>Onshore_wind_speed_anomaly</to>
 				</connector>
 				<aux x="970.143" y="423.571" name="Frequency of\nlow wind extremes"/>
-				<aux x="1099.14" y="457.932" name="Number of wind extremes"/>
-				<aux x="1203.6" y="422.253" name="Increase rate of\nFrequency of wind extremes"/>
 				<aux x="919.5" y="502.571" name="Full Load Hours loss"/>
 				<connector uid="76" color="#8FF0A4" font_color="#8FF0A4" angle="212.028">
 					<from>Frequency_of_low_wind_extremes</from>
@@ -17972,19 +17970,21 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<from>Full_Load_Hours_loss</from>
 					<to>Wind_Energy_Full_Load_Hours</to>
 				</connector>
-				<connector uid="81" angle="67.5264">
+				<connector uid="81" color="#8FF0A4" font_color="#8FF0A4" angle="130.142">
 					<from>Surface_Temperature_Anomaly_1</from>
 					<to>Frequency_of_low_wind_extremes</to>
 				</connector>
 				<aux x="887.667" y="423.571" name="Duration of\nlow wind extremes"/>
-				<connector uid="82" angle="69.8569">
+				<connector uid="82" color="#8FF0A4" font_color="#8FF0A4" angle="121.54">
 					<from>Surface_Temperature_Anomaly_1</from>
 					<to>Duration_of_low_wind_extremes</to>
 				</connector>
-				<connector uid="83" angle="308.562">
+				<connector uid="83" color="#8FF0A4" font_color="#8FF0A4" angle="308.562">
 					<from>Duration_of_low_wind_extremes</from>
 					<to>Full_Load_Hours_loss</to>
 				</connector>
+				<aux x="1038.75" y="112.5" name="CAPEX"/>
+				<aux x="1127.5" y="112.5" name="OPEX"/>
 			</view>
 		</views>
 	</model>

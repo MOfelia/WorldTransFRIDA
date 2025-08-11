@@ -17069,7 +17069,7 @@ ELSE 0</eqn>
 				<non_negative/>
 				<units>gW/Year</units>
 			</flow>
-			<flow name="Renewable Energy Capacity Vintage Aging Out">
+			<flow name="Renewable Energy Capacity\nVintage Aging Out">
 				<dimensions>
 					<dim name="Run"/>
 					<dim name="Renewable_Age_Group"/>
@@ -17078,7 +17078,7 @@ ELSE 0</eqn>
 				<non_negative/>
 				<units>gW/Year</units>
 			</flow>
-			<flow name="Renewable Energy Capacity Vintage Aging In">
+			<flow name="Renewable Energy Capacity\nVintage Aging In">
 				<doc>changed the decay to work on the aging in gets me much closer to the MIND output
 We might want to change back to decay later, as that would be more compatible with the continuous time concept used in FRIDA in general</doc>
 				<dimensions>
@@ -17098,7 +17098,7 @@ Calibrate to time series of ren cap</doc>
 				<eqn>SUM(Wind_Energy_Installed_Capacity[Run,*])</eqn>
 				<units>gW</units>
 			</aux>
-			<aux name="Renewable Energy Capacity Decay Fractions">
+			<aux name="Renewable Energy\nCapacity Decay Fractions">
 				<doc>${External Parameter}
 from MIND</doc>
 				<dimensions>
@@ -17536,25 +17536,49 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 			</aux>
 			<aux name="Frequency of\nlow wind extremes">
 				<doc>Regression line with data from: Prolonged wind droughts in a warming climate threaten global wind power security</doc>
-				<eqn>-4.125677361767771e-34*Surface_Temperature_Anomaly_1[1] +0.05</eqn>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>-4.125677361767771e-34*Surface_Temperature_Anomaly_1 +0.05</eqn>
 				<units>dmnl</units>
 			</aux>
 			<aux name="Full Load Hours loss">
-				<eqn>(Duration_of_low_wind_extremes+Frequency_of_low_wind_extremes)*Wind_Energy_Full_Load_Hours_Onshore[1]</eqn>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Duration_of_low_wind_extremes[Run]+Frequency_of_low_wind_extremes[Run])*Wind_Energy_Full_Load_Hours_Onshore</eqn>
 				<units>hours/year</units>
 			</aux>
 			<aux name="Duration of\nlow wind extremes">
 				<doc>Regression line with data from: Prolonged wind droughts in a warming climate threaten global wind power security</doc>
-				<eqn>0.04*Surface_Temperature_Anomaly_1[1]-0.01</eqn>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>0.04*Surface_Temperature_Anomaly_1-0.01</eqn>
 				<units>dmnl</units>
 			</aux>
 			<aux name="CAPEX">
-				<eqn>1281,84666666667</eqn>
+				<doc>mean value for all technologies, from Table 6 in  Storage Futures Study: Storage Technology Modeling Input Data Report del National Renewable Energy Laboratory (NREL)</doc>
+				<eqn>1281.84666666667</eqn>
 				<units>$/kW</units>
 			</aux>
 			<aux name="OPEX">
-				<eqn>5,62416666666667</eqn>
+				<doc>mean value for all technologies, from Table 6 in  Storage Futures Study: Storage Technology Modeling Input Data Report del National Renewable Energy Laboratory (NREL)</doc>
+				<eqn>5.62416666666667</eqn>
 				<units>$/kW</units>
+			</aux>
+			<aux name="Initial Storage Capacity"/>
+			<aux name="mean projected\nlifetime of batteries">
+				<doc>mean value for all technologies, from Table 6 in  Storage Futures Study: Storage Technology Modeling Input Data Report del National Renewable Energy Laboratory (NREL)</doc>
+				<eqn>20</eqn>
+			</aux>
+			<aux name="cycles per year">
+				<doc>mean value for all technologies, from Table 6 in  Storage Futures Study: Storage Technology Modeling Input Data Report del National Renewable Energy Laboratory (NREL)</doc>
+				<eqn>321.86</eqn>
+			</aux>
+			<aux name="Round-trip Efficiency (DOD)">
+				<doc>mean value for all technologies, from Table 6 in  Storage Futures Study: Storage Technology Modeling Input Data Report del National Renewable Energy Laboratory (NREL)</doc>
+				<eqn>0.684</eqn>
 			</aux>
 		</variables>
 		<views>
@@ -17605,7 +17629,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="102.5" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17652,13 +17676,13 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 						<pt x="555.71" y="479.553"/>
 					</pts>
 				</flow>
-				<flow x="650.139" y="433.503" name="Renewable Energy Capacity Vintage Aging Out">
+				<flow x="650.139" y="433.503" name="Renewable Energy Capacity\nVintage Aging Out">
 					<pts>
 						<pt x="607.139" y="433.503"/>
 						<pt x="717.14" y="433.503"/>
 					</pts>
 				</flow>
-				<flow x="644.21" y="496.659" width="19.4286" height="19.4286" name="Renewable Energy Capacity Vintage Aging In">
+				<flow x="644.21" y="496.659" width="19.4286" height="19.4286" name="Renewable Energy Capacity\nVintage Aging In">
 					<pts>
 						<pt x="700.71" y="506.373"/>
 						<pt x="607.139" y="506.373"/>
@@ -17673,7 +17697,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<from>Wind_Energy_Installed_Capacity</from>
 					<to>Wind_Energy_Capacity</to>
 				</connector>
-				<aux label_angle="258.411" x="672.64" y="563.363" name="Renewable Energy Capacity Decay Fractions"/>
+				<aux label_angle="258.411" x="672.64" y="563.363" name="Renewable Energy\nCapacity Decay Fractions"/>
 				<aux label_side="bottom" x="813.5" y="308.68" name="Renewable Energy Capacity\nVintage Duration"/>
 				<aux background="#FFAAFF" x="162.5" y="721.216" name="Installation Cost\nof Wind capacity"/>
 				<aux color="black" font_color="black" x="276.25" y="685.403" name="Wind Energy\nLearning Rate"/>
@@ -17729,7 +17753,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<to>Installation_Cost_of_Wind_capacity</to>
 				</connector>
 				<aux x="501.26" y="600.253" name="Perceived cumulative ren energy\ncapacity construction"/>
-				<aux x="609.38" y="625.413" name="time to perceive\nchanges in construction"/>
+				<aux label_side="bottom" x="609.38" y="625.413" name="time to perceive\nchanges in construction"/>
 				<connector uid="12" angle="161.996">
 					<from>time_to_perceive_changes_in_construction</from>
 					<to>Perceived_cumulative_ren_energy_capacity_construction</to>
@@ -17974,7 +17998,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<from>Surface_Temperature_Anomaly_1</from>
 					<to>Frequency_of_low_wind_extremes</to>
 				</connector>
-				<aux x="887.667" y="423.571" name="Duration of\nlow wind extremes"/>
+				<aux label_side="bottom" x="887.667" y="423.571" name="Duration of\nlow wind extremes"/>
 				<connector uid="82" color="#8FF0A4" font_color="#8FF0A4" angle="121.54">
 					<from>Surface_Temperature_Anomaly_1</from>
 					<to>Duration_of_low_wind_extremes</to>
@@ -17985,6 +18009,10 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				</connector>
 				<aux x="1038.75" y="112.5" name="CAPEX"/>
 				<aux x="1127.5" y="112.5" name="OPEX"/>
+				<aux x="937.5" y="112.5" name="Initial Storage Capacity"/>
+				<aux x="1208.57" y="112.5" name="mean projected\nlifetime of batteries"/>
+				<aux x="1208.57" y="199" name="cycles per year"/>
+				<aux x="1314" y="112.5" name="Round-trip Efficiency (DOD)"/>
 			</view>
 		</views>
 	</model>

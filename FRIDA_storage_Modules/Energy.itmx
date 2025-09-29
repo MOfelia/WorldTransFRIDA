@@ -137,6 +137,10 @@
 			<eqn>kW</eqn>
 			<alias>kilowatt</alias>
 		</unit>
+		<unit name="Hour">
+			<eqn/>
+			<alias>Hours</alias>
+		</unit>
 		<unit name="Person">
 			<eqn/>
 			<alias>People</alias>
@@ -225,6 +229,11 @@
 			<alias>yr</alias>
 			<alias>years</alias>
 		</unit>
+		<unit name="Dimensionless">
+			<eqn>1</eqn>
+			<alias>dmnl</alias>
+			<alias>unitless</alias>
+		</unit>
 		<unit name="G">
 			<eqn>Giga</eqn>
 		</unit>
@@ -236,17 +245,6 @@
 		</unit>
 		<unit name="GtN2O">
 			<eqn>Giga*tN2O</eqn>
-		</unit>
-		<unit name="Dimensionless">
-			<eqn>1</eqn>
-			<alias>dmnl</alias>
-			<alias>unitless</alias>
-			<alias>fraction</alias>
-		</unit>
-		<unit name="Hours">
-			<eqn/>
-			<alias>hr</alias>
-			<alias>hour</alias>
 		</unit>
 	</model_units>
 	<model name="Energy" run="true">
@@ -263,6 +261,8 @@
 				<connect2 to="energy_supply_vs_demand.demand_for_energy_1" from="energy_demand.demand_for_energy"/>
 				<connect to="Inflation.demand_for_energy" from="energy_demand.demand_for_energy"/>
 				<connect2 to="Inflation.demand_for_energy" from="energy_demand.demand_for_energy"/>
+				<connect to="Storage.demand_for_energy" from="energy_demand.demand_for_energy"/>
+				<connect2 to="Storage.demand_for_energy" from="energy_demand.demand_for_energy"/>
 				<connect to="energy_demand.average_marginal_net_cost_of_energy_with_historical_cost_adjustment" from="energy_investments.average_marginal_net_cost_of_energy_with_historical_cost_adjustment"/>
 				<connect2 to="energy_demand.average_marginal_net_cost_of_energy_with_historical_cost_adjustment" from="energy_investments.average_marginal_net_cost_of_energy_with_historical_cost_adjustment"/>
 				<connect to="energy_demand.per_person_use_of_energy_policy" from="Behavioral_Choices.per_person_use_of_energy_policy"/>
@@ -427,8 +427,6 @@
 			</module>
 			<module name="energy supply" isee:label="">
 				<format scale_by="auto"/>
-				<connect to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
-				<connect2 to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
 				<connect to="energy_supply_vs_demand.Total_Energy_Output" from="energy_supply.Total_Energy_Output"/>
 				<connect2 to="energy_supply_vs_demand.Total_Energy_Output" from="energy_supply.Total_Energy_Output"/>
 				<connect to="Inflation.Total_Energy_Output" from="energy_supply.Total_Energy_Output"/>
@@ -453,8 +451,6 @@
 				<connect2 to="efficiency_reduction_in_power_plants.switch_energy_damage" from="Climate.switch_energy_damage"/>
 				<connect to="efficiency_reduction_in_power_plants.today" from="Climate.climate_impact_stoptime"/>
 				<connect2 to="efficiency_reduction_in_power_plants.today" from="Climate.climate_impact_stoptime"/>
-				<connect to="Storage.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
-				<connect2 to="Storage.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
 				<connect to="Finance.stranded_capital" from="fossil_energy.stranded_capital"/>
 				<connect2 to="Finance.stranded_capital" from="fossil_energy.stranded_capital"/>
 				<connect to="fossil_energy.Investments_in_Fossil_Energy_Capital_oil_and_gas" from="energy_investments.Gross_Investments_in_Fossil_Energy_Capital_oil_and_gas"/>
@@ -739,6 +735,8 @@
 				<connect2 to="solar_energy.subsidy_for_newly_installed_solar_and_wind_energy_capacity" from="Government_Regulations.tax_rate_on_newly_installed_solar_energy_capacity"/>
 				<connect to="solar_energy.TWh_to_kWh" from="Energy_Units.UNIT_TWh_to_kWh"/>
 				<connect2 to="solar_energy.TWh_to_kWh" from="Energy_Units.UNIT_TWh_to_kWh"/>
+				<connect to="Storage.demand_for_energy" from="energy_demand.demand_for_energy"/>
+				<connect2 to="Storage.demand_for_energy" from="energy_demand.demand_for_energy"/>
 				<connect to="energy_investments.Cost_of_Extra_Energy_Output_through_Capital_per_Unit_9" from="wind_energy.Cost_of_Extra_Energy_Output_through_Capital_per_Unit_net_of_Tax_and_Subsidies"/>
 				<connect2 to="energy_investments.Cost_of_Extra_Energy_Output_through_Capital_per_Unit_9" from="wind_energy.Cost_of_Extra_Energy_Output_through_Capital_per_Unit_net_of_Tax_and_Subsidies"/>
 				<connect to="Government.tax_rate_6" from="wind_energy.tax_rate"/>
@@ -770,10 +768,6 @@
 				<connect2 to="energy_supply_vs_demand.Total_Energy_Output" from="energy_supply.Total_Energy_Output"/>
 				<connect to="energy_supply_vs_demand.Wind_Energy_Output_1" from="renewable_energy.Wind_Energy_Output"/>
 				<connect2 to="energy_supply_vs_demand.Wind_Energy_Output_1" from="renewable_energy.Wind_Energy_Output"/>
-				<connect to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
-				<connect2 to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
-				<connect to="Storage.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
-				<connect2 to="Storage.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
 			</module>
 			<module name="Energy Units" isee:label="">
 				<format scale_by="auto"/>
@@ -887,7 +881,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="12" isee:page_rows="7" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="12" isee:page_rows="7" zoom="160" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -1708,6 +1702,10 @@
 						</plot>
 					</graph>
 				</stacked_container>
+				<connector uid="1487" isee:thickness="2" angle="115" isee:autocreated="true">
+					<from>energy_demand</from>
+					<to>energy_supply</to>
+				</connector>
 			</view>
 		</views>
 	</model>
@@ -2161,7 +2159,7 @@ Change_in_energy_used_for_Heating_due_to_climate_change_in_MWh + Change_in_energ
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="133" isee:scroll_y="480" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="133" isee:scroll_y="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -3936,7 +3934,7 @@ ELSE
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="8" isee:page_rows="8" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="8" isee:page_rows="8" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -4167,7 +4165,7 @@ https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_c
 				<aux font_style="italic" font_weight="bold" x="1277.42" y="1777.24" name="Cost of Extra Energy Output through Capital per Unit 1"/>
 				<aux font_style="italic" font_weight="bold" x="1066.75" y="1697.24" name="cost of extra energy output through fuel extraction per unit 2"/>
 				<aux font_style="italic" font_weight="bold" x="1066.75" y="1777.24" name="Cost of Extra Energy Output through Capital per Unit 2"/>
-				<aux font_style="italic" font_weight="bold" x="1568.13" y="1777.8" name="Cost of Extra Energy Output\nthrough Capital per Unit 4"/>
+				<aux font_style="italic" font_weight="bold" x="1564.44" y="1823.63" name="Cost of Extra Energy Output\nthrough Capital per Unit 4"/>
 				<aux font_style="italic" font_weight="bold" x="1833.91" y="1697.8" name="Cost of Extra Energy Output\nthrough Capital per Unit 6"/>
 				<connector uid="348" angle="19.7351">
 					<from>cost_of_extra_energy_output_through_fuel_extraction_per_unit</from>
@@ -4193,7 +4191,7 @@ https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_c
 					<from>Cost_of_Extra_Energy_Output_through_Capital_per_Unit_1</from>
 					<to>cost_to_build_per_unit</to>
 				</connector>
-				<connector uid="355" angle="140.894">
+				<connector uid="355" angle="135.372">
 					<from>Cost_of_Extra_Energy_Output_through_Capital_per_Unit_4</from>
 					<to>cost_to_build_per_unit</to>
 				</connector>
@@ -4609,7 +4607,7 @@ https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_c
 					<from>Cost_of_Extra_Energy_Output_through_Capital_per_Unit_1</from>
 					<to>average_marginal_net_cost_of_energy_without_historical_cost_adjustment</to>
 				</connector>
-				<connector uid="526" angle="54.625">
+				<connector uid="526" angle="56.9205">
 					<from>Cost_of_Extra_Energy_Output_through_Capital_per_Unit_4</from>
 					<to>average_marginal_net_cost_of_energy_without_historical_cost_adjustment</to>
 				</connector>
@@ -5238,6 +5236,24 @@ https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_c
 				<connect2 to="solar_energy.subsidy_for_newly_installed_solar_and_wind_energy_capacity" from="Government_Regulations.tax_rate_on_newly_installed_solar_energy_capacity"/>
 				<connect to="solar_energy.TWh_to_kWh" from="Energy_Units.UNIT_TWh_to_kWh"/>
 				<connect2 to="solar_energy.TWh_to_kWh" from="Energy_Units.UNIT_TWh_to_kWh"/>
+				<connect to="Storage.demand_for_energy" from="energy_demand.demand_for_energy"/>
+				<connect2 to="Storage.demand_for_energy" from="energy_demand.demand_for_energy"/>
+				<connect to="Storage.Hydropower_Energy_Output" from="energy_supply.Hydropower_Energy_Output"/>
+				<connect2 to="Storage.Hydropower_Energy_Output" from="Hydropower_Energy_Output"/>
+				<connect to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
+				<connect2 to="Storage.Nuclear_Energy_Output" from="Nuclear_Energy_Output"/>
+				<connect to="Storage.Nuclear_Energy_Output_1" from="energy_supply.Nuclear_Energy_Output"/>
+				<connect2 to="Storage.Nuclear_Energy_Output_1" from="Nuclear_Energy_Output"/>
+				<connect to="Storage.Secondary_Fossil_Energy_Output" from="energy_supply.Secondary_Fossil_Energy_Output"/>
+				<connect2 to="Storage.Secondary_Fossil_Energy_Output" from="Secondary_Fossil_Energy_Output"/>
+				<connect to="Storage.Secondary_Fossil_Energy_Output_1" from="energy_supply.Secondary_Fossil_Energy_Output_1"/>
+				<connect2 to="Storage.Secondary_Fossil_Energy_Output_1" from="Secondary_Fossil_Energy_Output_1"/>
+				<connect to="Storage.Secondary_Fossil_Energy_Output_2" from="energy_supply.Secondary_Fossil_Energy_Output_2"/>
+				<connect2 to="Storage.Secondary_Fossil_Energy_Output_2" from="Secondary_Fossil_Energy_Output_2"/>
+				<connect to="Storage.Secondary_Fossil_Energy_Output_3" from="energy_supply.Secondary_Fossil_Energy_Output_3"/>
+				<connect2 to="Storage.Secondary_Fossil_Energy_Output_3" from="Secondary_Fossil_Energy_Output_3"/>
+				<connect to="Storage.Total_Energy_Output_1" from="energy_supply.Total_Energy_Output"/>
+				<connect2 to="Storage.Total_Energy_Output_1" from="Total_Energy_Output"/>
 				<connect to="energy_investments.Cost_of_Extra_Energy_Output_through_Capital_per_Unit_9" from="wind_energy.Cost_of_Extra_Energy_Output_through_Capital_per_Unit_net_of_Tax_and_Subsidies"/>
 				<connect2 to="energy_investments.Cost_of_Extra_Energy_Output_through_Capital_per_Unit_9" from="wind_energy.Cost_of_Extra_Energy_Output_through_Capital_per_Unit_net_of_Tax_and_Subsidies"/>
 				<connect to="Government.tax_rate_6" from="wind_energy.tax_rate"/>
@@ -5316,8 +5332,6 @@ https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_c
 				<connect2 to='"Primary_Fossil_Energy_(FUEL)"' from="fossil_energy.Primary_Fossil_Energy_FUEL"/>
 				<connect to="energy_supply.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
 				<connect2 to="Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
-				<connect to="Storage.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
-				<connect2 to="Storage.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
 				<connect to="Finance.stranded_capital" from="fossil_energy.stranded_capital"/>
 				<connect2 to="Finance.stranded_capital" from="fossil_energy.stranded_capital"/>
 				<connect to="fossil_energy.Investments_in_Fossil_Energy_Capital_oil_and_gas" from="energy_investments.Gross_Investments_in_Fossil_Energy_Capital_oil_and_gas"/>
@@ -5560,7 +5574,7 @@ https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_c
 				<connect to="nuclear_energy.UNIT_kW_to_TW" from="Energy_Units.UNIT_kW_to_TW"/>
 				<connect2 to="nuclear_energy.UNIT_kW_to_TW" from="Energy_Units.UNIT_kW_to_TW"/>
 			</module>
-			<aux name="Nuclear Energy Output" access="output" throughput="true" isee:autocreated="true">
+			<aux name="Nuclear Energy Output" access="input">
 				<dimensions>
 					<dim name="Run"/>
 				</dimensions>
@@ -5825,7 +5839,7 @@ Arbitrary unit of energy used to calculate the differentials of cost to produce 
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="112" isee:scroll_y="248" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="260" isee:scroll_y="100" zoom="120" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -6105,6 +6119,34 @@ Arbitrary unit of energy used to calculate the differentials of cost to produce 
 				<connector uid="90" angle="4.39871">
 					<from>Population</from>
 					<to>per_person_energy_output</to>
+				</connector>
+				<connector uid="91" angle="119.569" isee:autocreated="true">
+					<from>Total_Energy_Output</from>
+					<to>renewable_energy</to>
+				</connector>
+				<connector uid="96" angle="115.438" isee:autocreated="true">
+					<from>Hydropower_Energy_Output</from>
+					<to>renewable_energy</to>
+				</connector>
+				<connector uid="95" angle="194.396" isee:autocreated="true">
+					<from>Nuclear_Energy_Output</from>
+					<to>renewable_energy</to>
+				</connector>
+				<connector uid="94" angle="50.4232" isee:autocreated="true">
+					<from>Secondary_Fossil_Energy_Output_3</from>
+					<to>renewable_energy</to>
+				</connector>
+				<connector uid="93" angle="45.7565" isee:autocreated="true">
+					<from>Secondary_Fossil_Energy_Output_2</from>
+					<to>renewable_energy</to>
+				</connector>
+				<connector uid="92" angle="40.9905" isee:autocreated="true">
+					<from>Secondary_Fossil_Energy_Output_1</from>
+					<to>renewable_energy</to>
+				</connector>
+				<connector uid="97" angle="32.2544" isee:autocreated="true">
+					<from>Secondary_Fossil_Energy_Output</from>
+					<to>renewable_energy</to>
 				</connector>
 			</view>
 		</views>
@@ -6566,7 +6608,7 @@ ELSE
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1123" page_height="793" isee:page_cols="2" isee:page_rows="2" isee:scroll_y="94" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="2" isee:page_rows="2" isee:scroll_y="94" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -8485,7 +8527,7 @@ We apply this independent of fuel for now.</doc>
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="4" isee:page_rows="4" isee:scroll_x="485" zoom="120" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="4" isee:page_rows="4" isee:scroll_x="790.833" zoom="120" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -10522,7 +10564,7 @@ We apply this independent of fuel for now.</doc>
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="3" isee:page_rows="4" isee:scroll_x="838.333" isee:scroll_y="700" zoom="120" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1123" page_height="793" isee:page_cols="3" isee:page_rows="4" isee:scroll_x="654.286" isee:scroll_y="771.429" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -12564,7 +12606,7 @@ We apply this independent of fuel for now.</doc>
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1120" page_height="784" isee:page_cols="4" isee:page_rows="4" isee:scroll_x="618.75" isee:scroll_y="7.5" zoom="160" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1123" page_height="793" isee:page_cols="4" isee:page_rows="4" isee:scroll_x="618.75" isee:scroll_y="750" zoom="160" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -13895,7 +13937,7 @@ We apply this independent of fuel for now.</doc>
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_y="104.286" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="768" page_height="588" isee:page_cols="2" isee:page_rows="2" isee:scroll_y="94.2857" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -14425,6 +14467,37 @@ Wind_Energy_Output+
 				</dimensions>
 				<units>GW</units>
 			</aux>
+			<module name="Storage" isee:label="">
+				<format scale_by="auto"/>
+				<connect to="Storage.bio_fuel_secondary_energy_output" from="renewable_energy.bio_fuel_secondary_energy_output"/>
+				<connect2 to="Storage.bio_fuel_secondary_energy_output" from="bio_fuel_secondary_energy_output"/>
+				<connect to="Storage.demand_for_energy" from="energy_demand.demand_for_energy"/>
+				<connect2 to="Storage.demand_for_energy" from="energy_demand.demand_for_energy"/>
+				<connect to="Storage.Hydropower_Energy_Output" from="energy_supply.Hydropower_Energy_Output"/>
+				<connect2 to="Storage.Hydropower_Energy_Output" from="energy_supply.Hydropower_Energy_Output"/>
+				<connect to="Storage.Hydropower_Energy_Output_2" from="renewable_energy.Hydropower_Energy_Output"/>
+				<connect2 to="Storage.Hydropower_Energy_Output_2" from="Hydropower_Energy_Output"/>
+				<connect to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
+				<connect2 to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
+				<connect to="Storage.Nuclear_Energy_Output_1" from="energy_supply.Nuclear_Energy_Output"/>
+				<connect2 to="Storage.Nuclear_Energy_Output_1" from="energy_supply.Nuclear_Energy_Output"/>
+				<connect to="Storage.Secondary_Fossil_Energy_Output" from="energy_supply.Secondary_Fossil_Energy_Output"/>
+				<connect2 to="Storage.Secondary_Fossil_Energy_Output" from="energy_supply.Secondary_Fossil_Energy_Output"/>
+				<connect to="Storage.Secondary_Fossil_Energy_Output_1" from="energy_supply.Secondary_Fossil_Energy_Output_1"/>
+				<connect2 to="Storage.Secondary_Fossil_Energy_Output_1" from="energy_supply.Secondary_Fossil_Energy_Output_1"/>
+				<connect to="Storage.Secondary_Fossil_Energy_Output_2" from="energy_supply.Secondary_Fossil_Energy_Output_2"/>
+				<connect2 to="Storage.Secondary_Fossil_Energy_Output_2" from="energy_supply.Secondary_Fossil_Energy_Output_2"/>
+				<connect to="Storage.Secondary_Fossil_Energy_Output_3" from="energy_supply.Secondary_Fossil_Energy_Output_3"/>
+				<connect2 to="Storage.Secondary_Fossil_Energy_Output_3" from="energy_supply.Secondary_Fossil_Energy_Output_3"/>
+				<connect to="Storage.Total_Energy_Output_1" from="energy_supply.Total_Energy_Output"/>
+				<connect2 to="Storage.Total_Energy_Output_1" from="energy_supply.Total_Energy_Output"/>
+				<connect to="Storage.Total_Solar_and_Wind_Energy_Output_1" from="renewable_energy.Total_Solar_and_Wind_Energy_Output"/>
+				<connect2 to="Storage.Total_Solar_and_Wind_Energy_Output_1" from="Total_Solar_and_Wind_Energy_Output"/>
+				<connect to="Storage.Wind_Energy_Capacity_1" from="renewable_energy.Wind_Energy_Capacity_1"/>
+				<connect2 to="Storage.Wind_Energy_Capacity_1" from="Wind_Energy_Capacity_1"/>
+				<connect to="Storage.Wind_Energy_Capacity_2" from="renewable_energy.Wind_Energy_Capacity"/>
+				<connect2 to="Storage.Wind_Energy_Capacity_2" from="Wind_Energy_Capacity"/>
+			</module>
 		</variables>
 		<views>
 			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
@@ -14474,7 +14547,7 @@ Wind_Energy_Output+
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="66.6667" isee:scroll_y="266.667" zoom="180" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_y="232.778" zoom="180" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -14590,6 +14663,35 @@ Wind_Energy_Output+
 				<connector uid="32" angle="223.905">
 					<from>Converter_1</from>
 					<to>Total_Renewable_Energy_Capacity</to>
+				</connector>
+				<module x="178.533" y="698.889" name="Storage"/>
+				<connector uid="33" angle="291.938" isee:autocreated="true">
+					<from>Wind_Energy_Capacity</from>
+					<to>Storage</to>
+				</connector>
+				<connector uid="34" angle="263.218" isee:autocreated="true">
+					<from>Wind_Energy_Capacity_1</from>
+					<to>Storage</to>
+				</connector>
+				<connector uid="36" angle="249.706" isee:autocreated="true">
+					<from>Total_Solar_and_Wind_Energy_Output</from>
+					<to>Storage</to>
+				</connector>
+				<connector uid="37" angle="227.871" isee:autocreated="true">
+					<from>Hydropower_Energy_Output</from>
+					<to>Storage</to>
+				</connector>
+				<connector uid="38" isee:thickness="2" angle="305.009" isee:autocreated="true">
+					<from>wind_energy</from>
+					<to>Storage</to>
+				</connector>
+				<connector uid="39" isee:thickness="2" angle="277.032" isee:autocreated="true">
+					<from>solar_energy</from>
+					<to>Storage</to>
+				</connector>
+				<connector uid="40" angle="248.037" isee:autocreated="true">
+					<from>bio_fuel_secondary_energy_output</from>
+					<to>Storage</to>
 				</connector>
 			</view>
 		</views>
@@ -16003,7 +16105,7 @@ ELSE
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="768" page_height="588" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="8.125" isee:scroll_y="52.5" zoom="160" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="8.125" isee:scroll_y="15" zoom="160" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -16214,7 +16316,7 @@ ELSE
 	</model>
 	<model name="solar_energy" run="true">
 		<variables>
-			<aux name="Solar Energy\nFull Load Hours">
+			<aux name="Solar Energy\nFull Load Hours" access="output" isee:autocreated="true">
 				<doc>${Internal Calibration Parameter}
 </doc>
 				<dimensions>
@@ -17040,9 +17142,1331 @@ These parameters are set so that the effect of having to build grid energy stora
 			</view>
 		</views>
 	</model>
+	<model name="Storage">
+		<variables>
+			<aux name="Share of VRE">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn> Total_Solar_and_Wind_Energy_Output_1/Total_Energy_Output_1</eqn>
+				<units>dmnl</units>
+			</aux>
+			<stock name="Energy stored">
+				<eqn>RAMP(0,  50000)</eqn>
+				<inflow>charge</inflow>
+				<outflow>discharge</outflow>
+				<non_negative/>
+				<units>GW</units>
+			</stock>
+			<flow name="charge">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Electricity_Storage_capacity*cycles_per_year)+storage_from_curtailment</eqn>
+				<non_negative/>
+				<units>GW/Year</units>
+			</flow>
+			<flow name="discharge">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>charge*storage_efficiency</eqn>
+				<non_negative/>
+				<units>GW/Year</units>
+			</flow>
+			<aux name="Curtailment total fraction">
+				<doc>Averaged from all regions in Table SM2 of MESSAGE documentation.
+
+This approach utilizes residual load duration curves (RLDCs) across a range of VRE shares
+
+Curtailment occurs when excess electricity is generated that cannot be used or stored and is thus wasted.
+curtailment parameters within each VRE market penetration step (defined by the share of VRE) for the updated MESSAGE implementation.  The share of wind in VRE is the share of total VRE consisting of wind and represents the assumed range of wind/solar mixes for parameterizing curtailment 
+
+curtailment can be defined as the amount of negative residual load, or VRE oversupply, in a given RLDC (Figure 1).
+Negative residual load indicates that VRE generation alone exceeds electricity demand and thus this oversupply is independent of the flexibility of the remaining generators.</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<element subscript="1">
+					<gf>
+						<yscale min="0" max="100"/>
+						<xpts>0,0.35,0.45,0.55,0.65,0.75,0.85,1,2</xpts>
+						<ypts>0,8,48,65,75.8,80.09,81.181,100,100</ypts>
+					</gf>
+				</element>
+				<eqn>Share_of_VRE</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Electricity Storage capacity">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Power_Storage_capacity*nominal_duration</eqn>
+				<units>GWh</units>
+			</aux>
+			<aux name="storage efficiency">
+				<eqn>0.8</eqn>
+			</aux>
+			<aux name="cycles per year">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>250</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="VRE capacity">
+				<doc>The second update uses RLDCs to quantify how the capacity values of wind and solar PV change with increasing shares. The capacity value is the contribution of a technology to overall system adequacy, which is defined here as a technology’s contribution to the firm capacity requirement-
+
+Whereas conventional generating technologies are assumed to contribute their full nameplate capacity to firm capacity, the capacity values of wind and solar PV technologies tend to decline with increasing market share</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Wind_Energy_Capacity_1*proportion_solar)+(Wind_Energy_Capacity_2*proportion_wind)</eqn>
+				<units>GW</units>
+			</aux>
+			<aux name="capacity reserve">
+				<doc>a capacity reserve constraint that ensures that firm generating capacity is sufficient to meet peak load plus contingencies</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>((Total_Energy_Output_1*Firm_factor)/hours_year)</eqn>
+				<units>TW</units>
+			</aux>
+			<aux name="Flex supply">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>discharge+(Hydropower_Energy_Output_2*0.66)</eqn>
+			</aux>
+			<aux name="proportion wind">
+				<doc>MESSAGE uses RLDCs to quantify how the capacity values of wind and solar PV change with increasing shares</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Share_of_VRE</eqn>
+				<gf>
+					<yscale min="0" max="300"/>
+					<xpts>0,15,50,80,100</xpts>
+					<ypts>0,286,16,1.36,1.18</ypts>
+				</gf>
+				<units>dmnl</units>
+			</aux>
+			<aux name="proportion solar">
+				<doc>MESSAGE uses RLDCs to quantify how the capacity values of wind and solar PV change with
+increasing shares</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Share_of_VRE</eqn>
+				<gf>
+					<yscale min="0" max="1"/>
+					<xpts>0,15,50,80,100</xpts>
+					<ypts>0,0.595,0.427,0.33,0.29</ypts>
+				</gf>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Firm factor">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>0.9</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Wind\nEnergy Capacity 2" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>gW</units>
+			</aux>
+			<aux name="Wind\nEnergy Capacity 1" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>gW</units>
+			</aux>
+			<aux name="Total Energy Output 1" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Total Solar and Wind Energy Output 1" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="Hydropower Energy Output 2" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="demand for energy" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="FLEX VRE">
+				<doc> Sullivan et al. parameterizes the FLEX coefficients for each technology and load using a simplified unit commitment model of a limited grid. In this parameterization, solar PV and
+wind generation have negative FLEX coefficients, which suggest that increased VRE deployment introduces more supply intermittency and fluctuation, necessitating a larger operating reserve and more flexibility in the rest of the electricity system.
+
+Operating reserve coefficients for VRE (FLEXVRE) and load (FLEXload) in each region for the updated MESSAGE implementation.  Negative values indicate that more non-VRE flexibility is required with increasing VRE share while positive values indicate that less non-VRE flexibility is required.  The bins (e.g., 0 - 15%) represent the VRE share of total annual generation before curtailment. </doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Share_of_VRE</eqn>
+				<gf>
+					<yscale min="-1" max="1"/>
+					<xpts>0,15,50,100</xpts>
+					<ypts>-0.11,-0.46,0.29,0.29</ypts>
+				</gf>
+				<units>dmnl</units>
+			</aux>
+			<aux name="FLEX load">
+				<eqn>0.16</eqn>
+			</aux>
+			<aux name="Operating reserve\ncoefficient bio fuel">
+				<eqn>0</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Operating reserve\ncoefficient hydro">
+				<eqn>0.66</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Operating reserve\ncoefficient nuclear">
+				<eqn>0.2</eqn>
+			</aux>
+			<aux name="Operating reserve\ncoefficient gas">
+				<eqn>0.86</eqn>
+			</aux>
+			<aux name="Operating reserve\ncoefficient oil">
+				<eqn>0.86</eqn>
+			</aux>
+			<aux name="Operating reserve\ncoefficient coal">
+				<doc>MESSAGE-Table 1: Operating reserve, capacity factor, O&amp;M cost, and efficiency penalty assumptions for flexible operation of thermoelectric power plants </doc>
+				<eqn>0.53</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="bio fuel secondary energy output" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Hydropower Energy Output" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Nuclear Energy Output" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Secondary Fossil Energy Output 3" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Secondary Fossil Energy Output 2" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Secondary Fossil Energy Output 1" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Capacity factor\n(fraction of\ninstalled\ncapacity) coal">
+				<eqn>0.63</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Capacity factor oil">
+				<eqn>0.49</eqn>
+			</aux>
+			<aux name="Capacity factor gas">
+				<eqn>0.49</eqn>
+			</aux>
+			<aux name="Capacity factor nuclear">
+				<eqn>0.77</eqn>
+			</aux>
+			<aux name="Capacity factor hydro">
+				<eqn>0.42</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Capacity factor bio fuel">
+				<eqn>0.85</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Cycling-related\nvariable O&amp;M cost coal">
+				<doc>medium value of range 0.58 - 1.56</doc>
+				<eqn>1.07E-6*hours_2</eqn>
+				<units>h</units>
+			</aux>
+			<aux name="Cycling-related\nvariable O&amp;M cost oil">
+				<doc>medium value of range 9.24 - 9.36</doc>
+				<eqn>9.3E-6*hours_2</eqn>
+				<units>$/TWh</units>
+			</aux>
+			<aux name="Cycling-related\nvariable O&amp;M cost gas">
+				<doc>medium value of range 9.24 - 9.36</doc>
+				<eqn>9.3E-6*hours_2</eqn>
+				<units>$/MWh</units>
+			</aux>
+			<aux name="Cycling-related\nvariable O&amp;M cost nuclear">
+				<doc>medium value of range 1.28 - 1.39</doc>
+				<eqn>1.335*hours_2</eqn>
+				<units>$/MWh</units>
+			</aux>
+			<aux name="Efficiency Penalty coal">
+				<eqn>0.06</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Efficiency Penalty oil">
+				<eqn>8</eqn>
+				<units>%</units>
+			</aux>
+			<aux name="Efficiency Penalty gas">
+				<eqn>8</eqn>
+				<units>%</units>
+			</aux>
+			<aux name="CF baseload">
+				<eqn>0.85</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Baseload coal">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Secondary_Fossil_Energy_Output_1*CF_baseload</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Baseload oil">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Secondary_Fossil_Energy_Output_2*CF_baseload</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Baseload gas">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Secondary_Fossil_Energy_Output_3*CF_baseload</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Baseload nuclear">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Nuclear_Energy_Output*CF_baseload</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Baseload hydro">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Hydropower_Energy_Output*CF_baseload</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Baseload bio fuel">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>bio_fuel_secondary_energy_output*CF_baseload</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="CF FLEX">
+				<doc>0.5*(CFbaseload+minimum(generation))</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>0</eqn>
+			</aux>
+			<aux name="TW to GW">
+				<eqn>1000</eqn>
+				<units>GW/TW</units>
+			</aux>
+			<aux name="Firm capacity requeriment">
+				<doc>Given the peak ratio, the firm capacity requirement is calculated by adding an additional reserve margin of 20% to cover contingency events</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>((Peak_ratio+(Peak_ratio*0.2)))/hours_per_year</eqn>
+				<units>TW</units>
+			</aux>
+			<aux name="VRE capacity value">
+				<doc>The second update uses RLDCs to quantify how the capacity values of wind and solar PV change with increasing shares. The capacity value is the contribution of a technology to overall system adequacy,
+which is defined here as a technology’s contribution to the firm capacity requirement. Since the firm
+capacity requirement is the capacity needed to meet peak load and contingency events, a technology’s
+capacity value is the amount of capacity available during peak load</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Firm_capacity_requeriment*TW_to_GW)+VRE_capacity</eqn>
+				<units>GW</units>
+			</aux>
+			<aux name="hours per year">
+				<eqn>8760</eqn>
+				<units>hours/year</units>
+			</aux>
+			<aux name="Peak ratio">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Double*demand_for_energy</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Double">
+				<eqn>2</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Curtailment short">
+				<doc>curtailment can be defined as the amount of negative residual load, or VRE oversupply, in a given RLDC
+
+The remaining fraction of curtailment is labeled short-term
+curtailment and can be addressed with either hydrogen electrolysis without seasonal storage or a generic electricity storage technology that provides up to 24 hours of storage
+
+
+additional curtailment could result from inflexible generation, such as coal-fired baseload plants, which cannot adjust quickly to intermittent VRE generation. This curtailment is addressed using the operating reserve constraint described in section 2.3.1, which ensures sufficient system flexibility to avoid this type of curtailment</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Curtailment_total_fraction*Total_Solar_and_Wind_Energy_Output_1</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Nuclear Energy Output 1" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Secondary Fossil Energy Output" access="input">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Baseload generation">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Nuclear_Energy_Output_1+Secondary_Fossil_Energy_Output</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="Max baseload curtailment">
+				<doc>the fraction of peak load that can be supplied by baseload generation (black line in Figure 5) while restricting curtailment from baseload to an acceptable level (defined here as 1% of total generation</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Baseload_generation*one_per_cent</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="one per cent">
+				<eqn>0.01</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="baseload demand share">
+				<doc>The portion of total electricity demand that needs to be covered by baseload power plants after VRE and flexible generation.</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>demand_for_energy-FLEX_generation-Total_Solar_and_Wind_Energy_Output_1</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="System flexibility">
+				<doc>The total capacity of flexible resources (storage, flexible thermal) available in the system, which helps in integrating VRE. </doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Energy_stored + Baseload_generation</eqn>
+				<units>(TWh/year)/GW</units>
+			</aux>
+			<aux name="FLEX generation">
+				<doc>The total electricity generated by flexible resources (storage, flexible thermal).</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>System_flexibility*VRE_capacity_value</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="VRE deployment">
+				<doc>Represents the total installed capacity of Variable Renewable Energy (VRE) in the system.</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Wind_Energy_Capacity_2+Wind_Energy_Capacity_1</eqn>
+				<units>GW</units>
+			</aux>
+			<aux name="vre integration impacts">
+				<doc>A dimensionless indicator representing the overall challenge or cost associated with integrating VRE. It increases with VRE deployment and decreases with system flexibility.</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>VRE_deployment / (System_flexibility + 1)</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="FLEX coal">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Baseload_coal*Operating_reserve_coefficient_coal*&quot;Capacity_factor_(fraction_of_installed_capacity)_coal&quot;*&quot;Cycling-related_variable_O&amp;M_cost_coal&quot;*Efficiency_Penalty_coal</eqn>
+				<units>$/Year</units>
+			</aux>
+			<aux name="FLEX oil">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Baseload_oil*Operating_reserve_coefficient_oil*Capacity_factor_oil*&quot;Cycling-related_variable_O&amp;M_cost_oil&quot;*Efficiency_Penalty_oil</eqn>
+				<units>$*Million/Year</units>
+			</aux>
+			<aux name="FLEX thermal capacity">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_coal+FLEX_oil+FLEX_gas+FLEX_nuclear+FLEX_hydro+FLEX_bio_fuel</eqn>
+				<units>$*Million/Year</units>
+			</aux>
+			<aux name="FLEX gas">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Baseload_gas*Operating_reserve_coefficient_gas*Capacity_factor_gas*&quot;Cycling-related_variable_O&amp;M_cost_gas&quot;*Efficiency_Penalty_gas</eqn>
+				<units>$*Million/Year</units>
+			</aux>
+			<aux name="FLEX nuclear">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Baseload_nuclear*Operating_reserve_coefficient_nuclear*Capacity_factor_nuclear*&quot;Cycling-related_variable_O&amp;M_cost_nuclear&quot;</eqn>
+			</aux>
+			<aux name="FLEX hydro">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Baseload_hydro*Operating_reserve_coefficient_hydro*Capacity_factor_hydro</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="FLEX bio fuel">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Baseload_bio_fuel*Capacity_factor_bio_fuel*Operating_reserve_coefficient_bio_fuel</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="hours 2">
+				<eqn>8760</eqn>
+				<units>hours/year</units>
+			</aux>
+			<aux name="hours year">
+				<eqn>8760</eqn>
+				<units>hours/year</units>
+			</aux>
+			<aux name="Residual load">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>demand_for_energy-Total_Solar_and_Wind_Energy_Output_1</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="CAPEX rate">
+				<doc>Electricity storage is modeled in MESSAGE as a single generic technology that is parameterized based on data for
+compressed air storage (CAS) and provides storage, reserve capacity, and system flexibility with an efficiency of
+80% and capital cost ranging from $800/kW in 2010 to $600/kW in 2100.</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Capex_2010+(Capex_2100-Capex_2010)*(TIME-2010/2100-2010)</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Capex 2010">
+				<doc>MESSAGE</doc>
+				<eqn>800</eqn>
+				<units>$/kW</units>
+			</aux>
+			<aux name="Capex 2100">
+				<doc>MESSAGE</doc>
+				<eqn>600</eqn>
+				<units>$/kW</units>
+			</aux>
+			<aux name="lifetime">
+				<eqn>20</eqn>
+				<units>years</units>
+			</aux>
+			<aux name="discount rate">
+				<eqn>0.07</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="nominal duration">
+				<eqn>4</eqn>
+				<units>Hours</units>
+			</aux>
+			<aux name="FOM fraction">
+				<doc>annual FOM fraction over CAPEC</doc>
+				<eqn>0.02</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Capital Recovery Factor (CFR)">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>discount_rate/(1-((1+discount_rate)^(-lifetime)))</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="annual CAPEX">
+				<doc>equivalent annual cost per kW</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>&quot;Capital_Recovery_Factor_(CFR)&quot;*CAPEX_rate</eqn>
+				<units>$/kW</units>
+			</aux>
+			<aux name="Power Storage capacity">
+				<doc>https://www.energyinst.org/statistical-review
+
+Installed capacity of Grid-scale battery energy storage system (BESS) - Total World in 2014</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(TIME-STARTTIME)*(1+annual_growth_rate_power_storage)</eqn>
+				<units>GW</units>
+			</aux>
+			<aux name="annual growth rate\npower storage">
+				<doc>world total growth rate per annum between 2014-2014 from https://www.energyinst.org/statistical-review</doc>
+				<eqn>0.747</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Power storage in 1981">
+				<eqn>0.5</eqn>
+				<units>GW</units>
+			</aux>
+			<aux name="storage from curtailment">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>IF(Curtailment_short/cycles_per_year &lt;=Energy_stored ) 
+THEN Curtailment_short
+ ELSE 0</eqn>
+			</aux>
+			<aux name="CAPEX per kW year">
+				<doc>CAPEX annual per kW</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(annual_CAPEX*MW_to_kW)/(cycles_per_year*nominal_duration)</eqn>
+				<units>$/MWh</units>
+			</aux>
+			<aux name="MW to kW">
+				<eqn>1000</eqn>
+				<units>kW/MW</units>
+			</aux>
+			<aux name="Firm capacity">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>Firm_capacity_requirement*demand_for_energy</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="Firm capacity requirement">
+				<doc>TABLE SM4</doc>
+				<eqn>1.7</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="flexible fraction of non-VRE\ngeneration">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_VRE*Total_Solar_and_Wind_Energy_Output_1</eqn>
+				<units>TWh/year</units>
+			</aux>
+		</variables>
+		<views>
+			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
+				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
+					<isee:series_styles>
+						<isee:series_style color="blue" thickness="1"/>
+						<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF7F00" thickness="1"/>
+						<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF007F" thickness="1"/>
+						<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#C8C8C8" thickness="1"/>
+					</isee:series_styles>
+				</graph>
+				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+				<button color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595"/>
+				<isee:annotation color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595" popup_corner_radius="0" popup_background_color="#FFFECF"/>
+				<slider color="#0075FF" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" vertical="false" isee:fancy_appearance="false" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
+				<isee:stacked_container color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="0" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
+				<isee:dual_slider color="#66CC66" background="silver" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
+				<isee:sim_speed_slider color="black" background="white"/>
+				<isee:time_slider color="#E95F74" background="silver"/>
+				<isee:pie_input color="black" background="white" font_size="12pt" legend_position="bottom" isee:transparent="false"/>
+				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom" wrap_title="true"/>
+				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<isee:dropdown_input color="black" background="white" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top" wrap_title="true" isee:appearance="switch" isee:on_color="green"/>
+				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
+				<graphical_input color="black" background="#E0E0E0" font_size="12pt" isee:show_hover_tip="true"/>
+				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<lamp color="black" background="white" font_size="9pt"/>
+				<gauge color="black" background="white" font_size="9pt" needle_color="#F09F72" bar_color="#EEEEEE" bar_progress_color="black" appearance="radial" num_major_ticks="11" num_minor_ticks="11" show_numeric_value="true"/>
+				<isee:spatial_map color="black" background="white" font_size="12pt"/>
+				<isee:animation_object color="black" background="white" font_size="12pt"/>
+				<isee:navigation_widget color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="6" appearance="tabs" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
+				<isee:shape color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid" opacity="1" transparent_background="true" corner_radius="1"/>
+				<isee:selector color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
+				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+			</style>
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_y="480" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
+						<shape type="rectangle" width="45" height="35"/>
+					</stock>
+					<flow color="blue" background="white" font_color="blue" font_size="11pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</flow>
+					<isee:placeholder color="#228B22" background="white" font_color="#228B22" font_size="11pt" label_side="bottom"/>
+					<module color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
+						<shape type="rectangle" width="67" height="55"/>
+					</module>
+					<aux color="blue" background="white" font_color="blue" font_size="11pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</aux>
+					<group color="red" background="white" font_color="red" font_size="11pt"/>
+					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" isee:thickness="1"/>
+					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
+					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
+						<isee:series_styles>
+							<isee:series_style color="blue" thickness="1"/>
+							<isee:series_style color="red" thickness="1"/>
+							<isee:series_style color="#008F44" thickness="1"/>
+							<isee:series_style color="#FF7F00" thickness="1"/>
+							<isee:series_style color="#7F00FF" thickness="1"/>
+							<isee:series_style color="#0CA0FF" thickness="1"/>
+							<isee:series_style color="lime" thickness="1"/>
+							<isee:series_style color="#FF007F" thickness="1"/>
+							<isee:series_style color="aqua" thickness="1"/>
+							<isee:series_style color="#F586FF" thickness="1"/>
+							<isee:series_style color="black" thickness="1"/>
+							<isee:series_style color="#C8C8C8" thickness="1"/>
+						</isee:series_styles>
+					</graph>
+					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+				</style>
+				<aux x="331.708" y="840.667" name="Share of VRE"/>
+				<stock x="432.71" y="374.89" name="Energy stored"/>
+				<flow x="333.96" y="374.89" name="charge">
+					<pts>
+						<pt x="257.71" y="374.89"/>
+						<pt x="410.21" y="374.89"/>
+					</pts>
+				</flow>
+				<flow x="526.335" y="371.77" name="discharge">
+					<pts>
+						<pt x="455.21" y="371.77"/>
+						<pt x="621.46" y="371.77"/>
+					</pts>
+				</flow>
+				<aux x="201.708" y="715.667" name="Curtailment total fraction"/>
+				<connector uid="22" angle="136.123">
+					<from>Share_of_VRE</from>
+					<to>Curtailment_total_fraction</to>
+				</connector>
+				<connector uid="23" angle="122.164">
+					<from>Curtailment_total_fraction</from>
+					<to>Curtailment_short</to>
+				</connector>
+				<aux x="300.96" y="270.02" name="Electricity Storage capacity"/>
+				<aux x="557.71" y="316.89" name="storage efficiency"/>
+				<connector uid="26" angle="261.279">
+					<from>storage_efficiency</from>
+					<to>discharge</to>
+				</connector>
+				<aux x="233" y="331.02" name="cycles per year"/>
+				<aux background="#99C1F1" x="331.708" y="705" name="VRE capacity"/>
+				<aux background="#99C1F1" x="189.25" y="1114.39" name="capacity reserve"/>
+				<aux background="#99C1F1" x="575.71" y="418" name="Flex supply"/>
+				<connector uid="34" angle="335.625">
+					<from>discharge</from>
+					<to>Flex_supply</to>
+				</connector>
+				<aux x="276.333" y="752.685" name="proportion wind"/>
+				<aux x="361.111" y="752.685" name="proportion solar"/>
+				<connector uid="40" angle="121.658">
+					<from>proportion_solar</from>
+					<to>VRE_capacity</to>
+				</connector>
+				<connector uid="41" angle="40.7327">
+					<from>proportion_wind</from>
+					<to>VRE_capacity</to>
+				</connector>
+				<aux x="223.875" y="1156.64" name="Firm factor"/>
+				<connector uid="42" angle="107.682">
+					<from>Firm_factor</from>
+					<to>capacity_reserve</to>
+				</connector>
+				<aux font_style="italic" font_weight="bold" x="276.333" y="628.31" name="Wind\nEnergy Capacity 2"/>
+				<connector uid="43" angle="342.789">
+					<from>Wind_Energy_Capacity_2</from>
+					<to>VRE_capacity</to>
+				</connector>
+				<aux font_style="italic" font_weight="bold" x="361.111" y="628.31" name="Wind\nEnergy Capacity 1"/>
+				<connector uid="44" angle="224.517">
+					<from>Wind_Energy_Capacity_1</from>
+					<to>VRE_capacity</to>
+				</connector>
+				<aux font_style="italic" font_weight="bold" x="189.833" y="1021.18" name="Total Energy Output 1"/>
+				<connector uid="48" angle="69.1413">
+					<from>Total_Energy_Output_1</from>
+					<to>Share_of_VRE</to>
+				</connector>
+				<connector uid="49" angle="269.642">
+					<from>Total_Energy_Output_1</from>
+					<to>capacity_reserve</to>
+				</connector>
+				<aux font_style="italic" font_weight="bold" label_side="top" x="171.833" y="840.667" name="Total Solar and Wind Energy Output 1"/>
+				<connector uid="52" angle="0">
+					<from>Total_Solar_and_Wind_Energy_Output_1</from>
+					<to>Share_of_VRE</to>
+				</connector>
+				<aux font_style="italic" font_weight="bold" x="685.71" y="446.667" name="Hydropower Energy Output 2"/>
+				<connector uid="54" angle="153.192">
+					<from>Hydropower_Energy_Output_2</from>
+					<to>Flex_supply</to>
+				</connector>
+				<aux font_style="italic" font_weight="bold" x="503.833" y="1114.39" name="demand for energy"/>
+				<connector uid="69" angle="122.186">
+					<from>Share_of_VRE</from>
+					<to>proportion_wind</to>
+				</connector>
+				<connector uid="70" angle="71.5209">
+					<from>Share_of_VRE</from>
+					<to>proportion_solar</to>
+				</connector>
+				<aux x="320.875" y="932.557" width="21.6667" height="21.6667" name="FLEX VRE"/>
+				<aux x="331.708" y="1181.89" name="FLEX load"/>
+				<connector uid="74" angle="270">
+					<from>Share_of_VRE</from>
+					<to>FLEX_VRE</to>
+				</connector>
+				<aux x="397" y="1953.25" name="Operating reserve\ncoefficient bio fuel"/>
+				<aux x="404.833" y="1842" name="Operating reserve\ncoefficient hydro"/>
+				<aux x="404.833" y="1743.25" name="Operating reserve\ncoefficient nuclear"/>
+				<aux x="411.25" y="1636.58" name="Operating reserve\ncoefficient gas"/>
+				<aux x="415" y="1526.17" name="Operating reserve\ncoefficient oil"/>
+				<aux x="422.833" y="1420" name="Operating reserve\ncoefficient coal"/>
+				<aux font_style="italic" font_weight="bold" x="75.958" y="1971.25" name="bio fuel secondary energy output"/>
+				<aux font_style="italic" font_weight="bold" x="75.958" y="1860" name="Hydropower Energy Output"/>
+				<aux font_style="italic" font_weight="bold" x="75.958" y="1761.25" name="Nuclear Energy Output"/>
+				<aux font_style="italic" font_weight="bold" x="78" y="1654.58" name="Secondary Fossil Energy Output 3"/>
+				<aux font_style="italic" font_weight="bold" x="78" y="1544.17" name="Secondary Fossil Energy Output 2"/>
+				<aux font_style="italic" font_weight="bold" x="79.167" y="1448.75" name="Secondary Fossil Energy Output 1"/>
+				<aux x="558.833" y="1423" name="Capacity factor\n(fraction of\ninstalled\ncapacity) coal"/>
+				<aux x="558.833" y="1529.17" name="Capacity factor oil"/>
+				<aux x="547.25" y="1635.58" name="Capacity factor gas"/>
+				<aux x="540.833" y="1742.25" name="Capacity factor nuclear"/>
+				<aux x="540.833" y="1841" name="Capacity factor hydro"/>
+				<aux x="536" y="1953.25" name="Capacity factor bio fuel"/>
+				<aux x="707.25" y="1423" name="Cycling-related\nvariable O&amp;M cost coal"/>
+				<aux x="707.25" y="1529.17" name="Cycling-related\nvariable O&amp;M cost oil"/>
+				<aux x="707.25" y="1636.58" name="Cycling-related\nvariable O&amp;M cost gas"/>
+				<aux x="707.25" y="1743.25" name="Cycling-related\nvariable O&amp;M cost nuclear"/>
+				<aux x="840.708" y="1423" name="Efficiency Penalty coal"/>
+				<aux label_side="bottom" x="840.708" y="1523.17" name="Efficiency Penalty oil"/>
+				<aux x="840.708" y="1636.58" name="Efficiency Penalty gas"/>
+				<aux background="#F66151" x="147.25" y="1373" name="CF baseload"/>
+				<aux background="#F9F06B" x="248.25" y="1448.75" name="Baseload coal"/>
+				<connector uid="76" angle="331.599">
+					<from>CF_baseload</from>
+					<to>Baseload_coal</to>
+				</connector>
+				<aux background="#F9F06B" x="248.25" y="1544.17" name="Baseload oil"/>
+				<connector uid="77" angle="8.11365">
+					<from>Secondary_Fossil_Energy_Output_2</from>
+					<to>Baseload_oil</to>
+				</connector>
+				<connector uid="78" angle="9.85981">
+					<from>Secondary_Fossil_Energy_Output_1</from>
+					<to>Baseload_coal</to>
+				</connector>
+				<connector uid="79" angle="317.726">
+					<from>CF_baseload</from>
+					<to>Baseload_oil</to>
+				</connector>
+				<aux background="#F9F06B" x="251.25" y="1654.58" name="Baseload gas"/>
+				<connector uid="81" angle="290.271">
+					<from>CF_baseload</from>
+					<to>Baseload_gas</to>
+				</connector>
+				<connector uid="82" angle="14.8982">
+					<from>Secondary_Fossil_Energy_Output_3</from>
+					<to>Baseload_gas</to>
+				</connector>
+				<aux background="#F9F06B" x="248.25" y="1761.25" name="Baseload nuclear"/>
+				<connector uid="83" angle="16.6416">
+					<from>Nuclear_Energy_Output</from>
+					<to>Baseload_nuclear</to>
+				</connector>
+				<connector uid="84" angle="276.459">
+					<from>CF_baseload</from>
+					<to>Baseload_nuclear</to>
+				</connector>
+				<aux background="#F9F06B" x="248.25" y="1860" name="Baseload hydro"/>
+				<connector uid="85" angle="16.2486">
+					<from>Hydropower_Energy_Output</from>
+					<to>Baseload_hydro</to>
+				</connector>
+				<connector uid="86" angle="289.044">
+					<from>CF_baseload</from>
+					<to>Baseload_hydro</to>
+				</connector>
+				<aux background="#F9F06B" x="248.25" y="1971.25" name="Baseload bio fuel"/>
+				<connector uid="87" angle="10.1989">
+					<from>bio_fuel_secondary_energy_output</from>
+					<to>Baseload_bio_fuel</to>
+				</connector>
+				<connector uid="88" angle="270.241">
+					<from>CF_baseload</from>
+					<to>Baseload_bio_fuel</to>
+				</connector>
+				<aux x="321.875" y="1373" name="CF FLEX"/>
+				<aux x="473.889" y="646.31" name="TW to GW"/>
+				<aux background="#99C1F1" x="503.833" y="840.667" name="Firm capacity requeriment"/>
+				<aux background="#99C1F1" x="503.833" y="705" name="VRE capacity value"/>
+				<connector uid="98" angle="20.5142">
+					<from>VRE_capacity</from>
+					<to>VRE_capacity_value</to>
+				</connector>
+				<connector uid="99" angle="90">
+					<from>Firm_capacity_requeriment</from>
+					<to>VRE_capacity_value</to>
+				</connector>
+				<aux x="525.889" y="787.018" name="hours per year"/>
+				<connector uid="100" angle="273.642">
+					<from>hours_per_year</from>
+					<to>Firm_capacity_requeriment</to>
+				</connector>
+				<aux x="503.833" y="943.39" name="Peak ratio"/>
+				<connector uid="101" angle="90">
+					<from>demand_for_energy</from>
+					<to>Peak_ratio</to>
+				</connector>
+				<aux x="532.833" y="905" name="Double"/>
+				<connector uid="102" angle="232.933">
+					<from>Double</from>
+					<to>Peak_ratio</to>
+				</connector>
+				<connector uid="103" angle="90">
+					<from>Peak_ratio</from>
+					<to>Firm_capacity_requeriment</to>
+				</connector>
+				<connector uid="104" angle="321.185">
+					<from>TW_to_GW</from>
+					<to>VRE_capacity_value</to>
+				</connector>
+				<aux background="#99C1F1" label_side="bottom" x="105" y="552" name="Curtailment short"/>
+				<aux font_style="italic" font_weight="bold" x="836.111" y="446.667" name="Nuclear Energy Output 1"/>
+				<aux font_style="italic" font_weight="bold" x="990.25" y="446.667" name="Secondary Fossil Energy Output"/>
+				<aux x="904" y="534" name="Baseload generation"/>
+				<connector uid="106" angle="325.536">
+					<from>Nuclear_Energy_Output_1</from>
+					<to>Baseload_generation</to>
+				</connector>
+				<connector uid="107" angle="197.823">
+					<from>Secondary_Fossil_Energy_Output</from>
+					<to>Baseload_generation</to>
+				</connector>
+				<aux x="904" y="604" name="Max baseload curtailment"/>
+				<connector uid="108" angle="262.875">
+					<from>Baseload_generation</from>
+					<to>Max_baseload_curtailment</to>
+				</connector>
+				<aux x="981" y="581.685" name="one per cent"/>
+				<connector uid="109" angle="173.019">
+					<from>one_per_cent</from>
+					<to>Max_baseload_curtailment</to>
+				</connector>
+				<aux x="696" y="1033.39" name="baseload demand share"/>
+				<connector uid="113" angle="22.8558">
+					<from>demand_for_energy</from>
+					<to>baseload_demand_share</to>
+				</connector>
+				<aux x="740" y="599.685" name="System flexibility"/>
+				<aux x="696" y="697.667" name="FLEX generation"/>
+				<connector uid="120" angle="22.6435">
+					<from>VRE_capacity_value</from>
+					<to>FLEX_generation</to>
+				</connector>
+				<connector uid="121" angle="270">
+					<from>FLEX_generation</from>
+					<to>baseload_demand_share</to>
+				</connector>
+				<connector uid="123" angle="227.96">
+					<from>System_flexibility</from>
+					<to>FLEX_generation</to>
+				</connector>
+				<connector uid="124" angle="201.827">
+					<from>Baseload_generation</from>
+					<to>System_flexibility</to>
+				</connector>
+				<aux x="331.708" y="544" name="VRE deployment"/>
+				<connector uid="125" angle="41.6985">
+					<from>Wind_Energy_Capacity_2</from>
+					<to>VRE_deployment</to>
+				</connector>
+				<connector uid="126" angle="126.33">
+					<from>Wind_Energy_Capacity_1</from>
+					<to>VRE_deployment</to>
+				</connector>
+				<aux x="575.71" y="541" name="vre integration impacts"/>
+				<connector uid="127" angle="0.704415">
+					<from>VRE_deployment</from>
+					<to>vre_integration_impacts</to>
+				</connector>
+				<connector uid="128" angle="160.343">
+					<from>System_flexibility</from>
+					<to>vre_integration_impacts</to>
+				</connector>
+				<aux x="1005" y="1423" name="FLEX coal"/>
+				<connector uid="129" angle="31.8836">
+					<from>Baseload_coal</from>
+					<to>FLEX_coal</to>
+				</connector>
+				<connector uid="130" angle="25.0931">
+					<from>Operating_reserve_coefficient_coal</from>
+					<to>FLEX_coal</to>
+				</connector>
+				<connector uid="131" angle="24.7749">
+					<from>&quot;Capacity_factor_(fraction_of_installed_capacity)_coal&quot;</from>
+					<to>FLEX_coal</to>
+				</connector>
+				<connector uid="132" angle="33.0402">
+					<from>&quot;Cycling-related_variable_O&amp;M_cost_coal&quot;</from>
+					<to>FLEX_coal</to>
+				</connector>
+				<connector uid="133" angle="32.9691">
+					<from>Efficiency_Penalty_coal</from>
+					<to>FLEX_coal</to>
+				</connector>
+				<aux x="1005" y="1523.17" name="FLEX oil"/>
+				<aux x="1258" y="1624" name="FLEX thermal capacity"/>
+				<connector uid="134" angle="345.791">
+					<from>FLEX_coal</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="135" angle="338.271">
+					<from>FLEX_oil</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="136" angle="19.316">
+					<from>Baseload_oil</from>
+					<to>FLEX_oil</to>
+				</connector>
+				<connector uid="137" angle="21.174">
+					<from>Operating_reserve_coefficient_oil</from>
+					<to>FLEX_oil</to>
+				</connector>
+				<connector uid="138" angle="25.1076">
+					<from>Capacity_factor_oil</from>
+					<to>FLEX_oil</to>
+				</connector>
+				<connector uid="139" angle="30.2295">
+					<from>&quot;Cycling-related_variable_O&amp;M_cost_oil&quot;</from>
+					<to>FLEX_oil</to>
+				</connector>
+				<connector uid="140" angle="26.6103">
+					<from>Efficiency_Penalty_oil</from>
+					<to>FLEX_oil</to>
+				</connector>
+				<aux x="1005" y="1636.58" name="FLEX gas"/>
+				<connector uid="141" angle="24.3485">
+					<from>Baseload_gas</from>
+					<to>FLEX_gas</to>
+				</connector>
+				<connector uid="142" angle="24.3485">
+					<from>Operating_reserve_coefficient_gas</from>
+					<to>FLEX_gas</to>
+				</connector>
+				<connector uid="143" angle="28.4538">
+					<from>Capacity_factor_gas</from>
+					<to>FLEX_gas</to>
+				</connector>
+				<connector uid="144" angle="26.0757">
+					<from>&quot;Cycling-related_variable_O&amp;M_cost_gas&quot;</from>
+					<to>FLEX_gas</to>
+				</connector>
+				<connector uid="145" angle="22.1908">
+					<from>Efficiency_Penalty_gas</from>
+					<to>FLEX_gas</to>
+				</connector>
+				<connector uid="146" angle="350.142">
+					<from>FLEX_gas</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<aux x="1005" y="1743.25" name="FLEX nuclear"/>
+				<connector uid="147" angle="21.7764">
+					<from>Operating_reserve_coefficient_nuclear</from>
+					<to>FLEX_nuclear</to>
+				</connector>
+				<connector uid="148" angle="23.0318">
+					<from>Capacity_factor_nuclear</from>
+					<to>FLEX_nuclear</to>
+				</connector>
+				<connector uid="149" angle="25.5234">
+					<from>&quot;Cycling-related_variable_O&amp;M_cost_nuclear&quot;</from>
+					<to>FLEX_nuclear</to>
+				</connector>
+				<connector uid="150" angle="11.1956">
+					<from>FLEX_nuclear</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<aux x="1005" y="1841" name="FLEX hydro"/>
+				<aux x="1005" y="1952.25" name="FLEX bio fuel"/>
+				<connector uid="151" angle="22.8962">
+					<from>Operating_reserve_coefficient_hydro</from>
+					<to>FLEX_hydro</to>
+				</connector>
+				<connector uid="152" angle="17.3927">
+					<from>Capacity_factor_hydro</from>
+					<to>FLEX_hydro</to>
+				</connector>
+				<connector uid="153" angle="26.8825">
+					<from>Operating_reserve_coefficient_bio_fuel</from>
+					<to>FLEX_bio_fuel</to>
+				</connector>
+				<connector uid="154" angle="29.2702">
+					<from>Capacity_factor_bio_fuel</from>
+					<to>FLEX_bio_fuel</to>
+				</connector>
+				<connector uid="155" angle="40.6199">
+					<from>FLEX_hydro</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="156" angle="28.3274">
+					<from>FLEX_bio_fuel</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="157" angle="24.0755">
+					<from>Baseload_nuclear</from>
+					<to>FLEX_nuclear</to>
+				</connector>
+				<connector uid="158" angle="19.9831">
+					<from>Baseload_hydro</from>
+					<to>FLEX_hydro</to>
+				</connector>
+				<connector uid="159" angle="24.444">
+					<from>Baseload_bio_fuel</from>
+					<to>FLEX_bio_fuel</to>
+				</connector>
+				<aux x="648.833" y="1408.64" name="hours 2"/>
+				<connector uid="160" angle="15.0347">
+					<from>hours_2</from>
+					<to>&quot;Cycling-related_variable_O&amp;M_cost_coal&quot;</to>
+				</connector>
+				<connector uid="161" angle="310.327">
+					<from>hours_2</from>
+					<to>&quot;Cycling-related_variable_O&amp;M_cost_oil&quot;</to>
+				</connector>
+				<connector uid="162" angle="312.029">
+					<from>hours_2</from>
+					<to>&quot;Cycling-related_variable_O&amp;M_cost_gas&quot;</to>
+				</connector>
+				<connector uid="163" angle="308.96">
+					<from>hours_2</from>
+					<to>&quot;Cycling-related_variable_O&amp;M_cost_nuclear&quot;</to>
+				</connector>
+				<text_box uid="164" x="265.708" y="492" width="112.334" height="20">VRE GENERATION</text_box>
+				<text_box uid="165" x="447.666" y="489" width="112.334" height="20">Backup Capacity </text_box>
+				<text_box uid="166" x="50.499" y="492" width="112.334" height="20">CURTAILMENT</text_box>
+				<aux x="130.833" y="1156.64" name="hours year"/>
+				<connector uid="33" angle="35.8782">
+					<from>hours_year</from>
+					<to>capacity_reserve</to>
+				</connector>
+				<aux x="331.708" y="1113.02" name="Residual load"/>
+				<connector uid="170" angle="159.325">
+					<from>demand_for_energy</from>
+					<to>Residual_load</to>
+				</connector>
+				<connector uid="171" angle="289.74">
+					<from>Total_Solar_and_Wind_Energy_Output_1</from>
+					<to>Residual_load</to>
+				</connector>
+				<connector uid="172" angle="1.22599">
+					<from>Total_Solar_and_Wind_Energy_Output_1</from>
+					<to>baseload_demand_share</to>
+				</connector>
+				<aux x="720.71" y="113.02" name="CAPEX rate"/>
+				<aux x="682" y="57" name="Capex 2010"/>
+				<aux x="754" y="57" name="Capex 2100"/>
+				<connector uid="174" angle="315.852">
+					<from>Capex_2010</from>
+					<to>CAPEX_rate</to>
+				</connector>
+				<connector uid="175" angle="221.158">
+					<from>Capex_2100</from>
+					<to>CAPEX_rate</to>
+				</connector>
+				<aux x="537" y="57" name="lifetime"/>
+				<aux x="609.33" y="57" name="discount rate"/>
+				<aux x="343" y="237" name="nominal duration"/>
+				<aux x="1082" y="124" name="FOM fraction"/>
+				<aux x="574" y="113.02" name="Capital Recovery Factor (CFR)"/>
+				<connector uid="180" angle="237.762">
+					<from>discount_rate</from>
+					<to>&quot;Capital_Recovery_Factor_(CFR)&quot;</to>
+				</connector>
+				<connector uid="181" angle="319.717">
+					<from>lifetime</from>
+					<to>&quot;Capital_Recovery_Factor_(CFR)&quot;</to>
+				</connector>
+				<aux x="640.71" y="172.39" name="annual CAPEX"/>
+				<connector uid="182" angle="340.173">
+					<from>&quot;Capital_Recovery_Factor_(CFR)&quot;</from>
+					<to>annual_CAPEX</to>
+				</connector>
+				<connector uid="183" angle="193.318">
+					<from>CAPEX_rate</from>
+					<to>annual_CAPEX</to>
+				</connector>
+				<aux x="300.96" y="201.02" name="Power Storage capacity"/>
+				<connector uid="184" angle="288.836">
+					<from>Power_Storage_capacity</from>
+					<to>Electricity_Storage_capacity</to>
+				</connector>
+				<connector uid="186" angle="218.148">
+					<from>nominal_duration</from>
+					<to>Electricity_Storage_capacity</to>
+				</connector>
+				<connector uid="187" angle="354.385">
+					<from>cycles_per_year</from>
+					<to>charge</to>
+				</connector>
+				<connector uid="188" angle="296.629">
+					<from>Electricity_Storage_capacity</from>
+					<to>charge</to>
+				</connector>
+				<connector uid="189" angle="72.9018">
+					<from>charge</from>
+					<to>discharge</to>
+				</connector>
+				<aux label_side="top" x="343" y="168.02" name="annual growth rate\npower storage"/>
+				<aux x="233" y="168.02" name="Power storage in 1981"/>
+				<connector uid="192" angle="235.608">
+					<from>annual_growth_rate_power_storage</from>
+					<to>Power_Storage_capacity</to>
+				</connector>
+				<text_box uid="193" x="274" y="427" width="91" height="26.64">GWh in charge</text_box>
+				<aux x="201.708" y="455.14" name="storage from curtailment"/>
+				<connector uid="194" angle="61.8162">
+					<from>Curtailment_short</from>
+					<to>storage_from_curtailment</to>
+				</connector>
+				<connector uid="195" angle="248.159">
+					<from>cycles_per_year</from>
+					<to>storage_from_curtailment</to>
+				</connector>
+				<connector uid="196" angle="185.885">
+					<from>Energy_stored</from>
+					<to>storage_from_curtailment</to>
+				</connector>
+				<connector uid="197" angle="317.023">
+					<from>Energy_stored</from>
+					<to>System_flexibility</to>
+				</connector>
+				<aux x="644" y="250" name="CAPEX per kW year"/>
+				<aux x="722" y="203" name="MW to kW"/>
+				<connector uid="198" angle="198.435">
+					<from>MW_to_kW</from>
+					<to>CAPEX_per_kW_year</to>
+				</connector>
+				<connector uid="199" angle="18.9048">
+					<from>nominal_duration</from>
+					<to>CAPEX_per_kW_year</to>
+				</connector>
+				<connector uid="200" angle="277.645">
+					<from>annual_CAPEX</from>
+					<to>CAPEX_per_kW_year</to>
+				</connector>
+				<connector uid="201" angle="30.7425">
+					<from>cycles_per_year</from>
+					<to>CAPEX_per_kW_year</to>
+				</connector>
+				<text_box uid="202" x="559" y="18.667" width="170" height="23">CAPEX (initial cost inversion)</text_box>
+				<connector uid="203" angle="84.1039">
+					<from>Total_Solar_and_Wind_Energy_Output_1</from>
+					<to>Curtailment_short</to>
+				</connector>
+				<connector uid="206" angle="19.0333">
+					<from>storage_from_curtailment</from>
+					<to>charge</to>
+				</connector>
+				<text_box uid="207" x="1237" y="455.667" width="260" height="26">Firm capacity</text_box>
+				<aux x="1259" y="544" name="Firm capacity"/>
+				<aux label_side="right" label_angle="315" x="1197" y="502" name="Firm capacity requirement"/>
+				<connector uid="208" angle="325.886">
+					<from>Firm_capacity_requirement</from>
+					<to>Firm_capacity</to>
+				</connector>
+				<connector uid="209" angle="8.96479">
+					<from>demand_for_energy</from>
+					<to>Firm_capacity</to>
+				</connector>
+				<text_box uid="210" x="257.96" y="59.5" width="86" height="23">Power storage</text_box>
+				<text_box uid="211" x="23" y="316" width="102" height="168">additional curtailment could result from inflexible generation, such as coal-fired baseload plants, which
+cannot adjust quickly to intermittent VRE generation. This curtailment is addressed using the operating reserve
+constraint described in section 2.3.1, which ensures sufficient system flexibility to avoid this type of curtailment</text_box>
+				<text_box uid="212" x="823.916" y="402.22" width="157.334" height="24.78">BASELOAD GENERATION</text_box>
+				<aux x="331.708" y="1021.18" name="flexible fraction of non-VRE\ngeneration"/>
+				<connector uid="214" angle="314.424">
+					<from>Total_Solar_and_Wind_Energy_Output_1</from>
+					<to>&quot;flexible_fraction_of_non-VRE_generation&quot;</to>
+				</connector>
+				<connector uid="215" angle="276.51">
+					<from>FLEX_VRE</from>
+					<to>&quot;flexible_fraction_of_non-VRE_generation&quot;</to>
+				</connector>
+			</view>
+		</views>
+	</model>
 	<model name="wind_energy" run="true">
 		<variables>
-			<aux name="Wind Energy\nFull Load Hours">
+			<aux name="Wind Energy\nFull Load Hours" access="output" isee:autocreated="true">
 				<doc>${External Parameter}
 </doc>
 				<dimensions>
@@ -17643,7 +19067,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="215" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -18022,7 +19446,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<to>Full_Load_Hours_loss</to>
 				</connector>
 				<aux x="1038.75" y="112.5" name="CAPEX"/>
-				<aux x="1127.5" y="112.5" name="OPEX"/>
+				<aux x="1122.5" y="112.5" name="OPEX"/>
 				<aux x="937.5" y="112.5" name="Initial Storage Capacity"/>
 				<aux x="1208.57" y="112.5" name="mean projected\nlifetime of batteries"/>
 				<aux x="1208.57" y="199" name="cycles per year"/>
@@ -18108,15 +19532,6 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
 				<units>TWh/Year</units>
 			</aux>
-			<module name="Storage" isee:label="">
-				<format scale_by="auto"/>
-				<connect to="Storage.demand_for_energy_1" from="energy_supply_vs_demand.demand_for_energy_1"/>
-				<connect2 to="Storage.demand_for_energy_1" from="demand_for_energy_1"/>
-				<connect to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
-				<connect2 to="Storage.Nuclear_Energy_Output" from="energy_supply.Nuclear_Energy_Output"/>
-				<connect to="Storage.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
-				<connect2 to="Storage.Secondary_Fossil_Energy_Output" from="fossil_energy.Secondary_Fossil_Energy_Output"/>
-			</module>
 		</variables>
 		<views>
 			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
@@ -18279,766 +19694,6 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<connector uid="29" color="#8FF0A4" font_color="#8FF0A4" angle="277.001">
 					<from>demand_for_energy_1</from>
 					<to>Intensity_of_wind_extremes</to>
-				</connector>
-				<module x="210.714" y="540.714" name="Storage"/>
-				<connector uid="30" angle="276.898" isee:autocreated="true">
-					<from>demand_for_energy_1</from>
-					<to>Storage</to>
-				</connector>
-			</view>
-		</views>
-	</model>
-	<model name="Storage">
-		<variables>
-			<flow name="vre deployment rate">
-				<doc>The rate at which new VRE capacity is added to the system, driven by deployment goals and integration feasibility.</doc>
-				<eqn>desired_vre_deployment_rate</eqn>
-				<non_negative/>
-				<units>GW/Year</units>
-			</flow>
-			<flow name="vre decommissioning rate">
-				<doc>The rate at which VRE capacity is decommissioned, based on its average operational lifetime.</doc>
-				<eqn>VRE_Deployment / vre_lifetime</eqn>
-				<non_negative/>
-				<units>GW/Year</units>
-			</flow>
-			<aux name="vre lifetime">
-				<doc>The average operational lifetime of VRE assets in months.</doc>
-				<eqn>360</eqn>
-				<units>Months</units>
-			</aux>
-			<aux name="desired vre deployment rate">
-				<doc>The target rate for VRE deployment, adjusted by how feasible it is to integrate additional VRE into the system.</doc>
-				<eqn>vre_deployment_goal * vre_integration_feasibility</eqn>
-				<units>GW/Month</units>
-			</aux>
-			<aux name="vre deployment goal">
-				<doc>A constant representing the underlying policy or market-driven target for VRE deployment.</doc>
-				<eqn>0.5</eqn>
-				<units>GW/Month</units>
-			</aux>
-			<aux name="vre integration feasibility">
-				<doc>A dimensionless factor indicating how feasible it is to integrate more VRE, decreasing as VRE integration impacts increase.</doc>
-				<eqn>vre_integration_impacts</eqn>
-				<gf>
-					<yscale min="0.1" max="1"/>
-					<xpts>0,5,10</xpts>
-					<ypts>1,0.5,0.1</ypts>
-				</gf>
-				<units>Dmnl</units>
-			</aux>
-			<aux name="vre integration impacts">
-				<doc>A dimensionless indicator representing the overall challenge or cost associated with integrating VRE. It increases with VRE deployment and decreases with system flexibility.</doc>
-				<eqn>VRE_Deployment / (system_flexibility + 1)</eqn>
-				<units>Dmnl</units>
-			</aux>
-			<aux name="system flexibility">
-				<doc>The total capacity of flexible resources (storage, flexible thermal) available in the system, which helps in integrating VRE. Hydrogen electrolysis capacity has been removed as per the user&apos;s request.</doc>
-				<eqn>Electricity_Storage_Capacity + Flexible_Thermal_Capacity</eqn>
-				<units>GW</units>
-			</aux>
-			<flow name="electricity storage\ndeployment rate">
-				<doc>The rate at which new electricity storage capacity is deployed, as a fraction of the total desired flexible capacity.</doc>
-				<eqn>desired_flexible_capacity_deployment_rate * 0.4</eqn>
-				<non_negative/>
-				<units>GW/Year</units>
-			</flow>
-			<flow name="electricity storage\ndecommissioning rate">
-				<doc>The rate at which electricity storage capacity is decommissioned.</doc>
-				<eqn>Electricity_Storage_Capacity / storage_lifetime</eqn>
-				<non_negative/>
-				<units>GW/Year</units>
-			</flow>
-			<aux name="storage lifetime">
-				<doc>The average operational lifetime of electricity storage systems in months.</doc>
-				<eqn>240</eqn>
-				<units>Months</units>
-			</aux>
-			<flow name="flexible thermal\ndeployment rate">
-				<doc>The rate at which new flexible thermal capacity is deployed, as a fraction of the total desired flexible capacity.</doc>
-				<eqn>desired_flexible_capacity_deployment_rate * 0.3</eqn>
-				<non_negative/>
-				<units>GW/Year</units>
-			</flow>
-			<flow name="flexible thermal decommissioning rate">
-				<doc>The rate at which flexible thermal capacity is decommissioned.</doc>
-				<eqn>Flexible_Thermal_Capacity / flexible_thermal_lifetime</eqn>
-				<non_negative/>
-				<units>GW/Year</units>
-			</flow>
-			<aux name="flexible thermal lifetime">
-				<doc>The average operational lifetime of flexible thermal power plants in months.</doc>
-				<eqn>480</eqn>
-				<units>Months</units>
-			</aux>
-			<aux name="desired flexible capacity deployment rate">
-				<doc>The total desired rate of deployment for all flexible capacities, driven by the need to mitigate VRE integration impacts.</doc>
-				<eqn>vre_integration_impacts * flexible_capacity_investment_factor</eqn>
-				<units>GW/Month</units>
-			</aux>
-			<aux name="flexible capacity\ninvestment factor">
-				<doc>A factor representing the responsiveness of flexible capacity investment to VRE integration impacts. Higher impacts lead to higher investment.</doc>
-				<eqn>10</eqn>
-				<units>GW/Month</units>
-			</aux>
-			<flow name="baseload deployment rate">
-				<doc>The rate at which new baseload capacity is deployed. Set to zero to reflect the diminishing role of baseload in high VRE scenarios.</doc>
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Converter_1</eqn>
-				<non_negative/>
-				<units>GW/Year</units>
-			</flow>
-			<flow name="baseload decommissioning rate">
-				<doc>The rate at which baseload capacity is decommissioned, potentially accelerated by low utilization.</doc>
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Baseload_Capacity / baseload_lifetime * baseload_decommissioning_factor</eqn>
-				<non_negative/>
-				<units>GW/Year</units>
-			</flow>
-			<aux name="baseload lifetime">
-				<doc>The average operational lifetime of baseload power plants in months.</doc>
-				<eqn>600</eqn>
-				<units>Months</units>
-			</aux>
-			<aux name="baseload decommissioning factor">
-				<doc>A factor that increases baseload decommissioning if its utilization falls below a certain threshold.</doc>
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>baseload_utilization</eqn>
-				<gf>
-					<yscale min="0.5" max="2"/>
-					<xpts>0,0.5,1</xpts>
-					<ypts>2,1,0.5</ypts>
-				</gf>
-				<units>Dmnl</units>
-			</aux>
-			<aux name="baseload utilization">
-				<doc>The utilization rate of baseload power plants, calculated as the share of demand they cover relative to their maximum potential generation.</doc>
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>baseload_demand_share / (Baseload_Capacity * hours_in_year)</eqn>
-				<units>Dmnl</units>
-			</aux>
-			<aux name="baseload demand share">
-				<doc>The portion of total electricity demand that needs to be covered by baseload power plants after VRE and flexible generation.</doc>
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>(demand_for_energy_1*TW_to_GW) - vre_generation - flexible_generation</eqn>
-				<units>GWh/year</units>
-			</aux>
-			<aux name="vre generation">
-				<doc>The total electricity generated by VRE, considering its capacity factor and any curtailment.</doc>
-				<eqn>VRE_Deployment * vre_capacity_factor * hours_in_year * (1 - curtailment_rate)</eqn>
-				<units>GWh/year</units>
-			</aux>
-			<aux name="vre capacity factor">
-				<doc>The average capacity factor for VRE technologies.</doc>
-				<eqn>0.3</eqn>
-				<units>Dmnl</units>
-			</aux>
-			<aux name="hours in year">
-				<doc>The average number of hours in a month.</doc>
-				<eqn>8760</eqn>
-				<units>hours/year</units>
-			</aux>
-			<aux name="curtailment rate">
-				<doc>The rate at which VRE generation is curtailed, increasing with higher VRE integration impacts.</doc>
-				<eqn>vre_integration_impacts</eqn>
-				<gf>
-					<yscale min="0" max="0.3"/>
-					<xpts>0,5,10</xpts>
-					<ypts>0,0.1,0.3</ypts>
-				</gf>
-				<units>Dmnl</units>
-			</aux>
-			<aux name="flexible generation">
-				<doc>The total electricity generated by flexible resources (storage, flexible thermal).</doc>
-				<eqn>system_flexibility * flexible_capacity_factor * hours_in_year</eqn>
-				<units>GWh/Month</units>
-			</aux>
-			<aux name="flexible capacity factor">
-				<doc>The average capacity factor for flexible resources, typically lower than baseload as they operate intermittently.</doc>
-				<eqn>0.1</eqn>
-				<units>Dmnl</units>
-			</aux>
-			<stock name="VRE Deployment">
-				<doc>Represents the total installed capacity of Variable Renewable Energy (VRE) in the system. It increases with new deployments and decreases with decommissioning.</doc>
-				<eqn>50</eqn>
-				<inflow>vre_deployment_rate</inflow>
-				<outflow>vre_decommissioning_rate</outflow>
-				<units>GW</units>
-			</stock>
-			<stock name="Electricity Storage Capacity">
-				<doc>The installed capacity of electricity storage systems.</doc>
-				<eqn>10</eqn>
-				<inflow>electricity_storage_deployment_rate</inflow>
-				<outflow>electricity_storage_decommissioning_rate</outflow>
-				<units>GW</units>
-			</stock>
-			<stock name="Flexible Thermal Capacity">
-				<doc>The installed capacity of thermoelectric technologies operating in a flexible mode.</doc>
-				<eqn>20</eqn>
-				<inflow>flexible_thermal_deployment_rate</inflow>
-				<outflow>flexible_thermal_decommissioning_rate</outflow>
-				<units>GW</units>
-			</stock>
-			<stock name="Baseload Capacity">
-				<doc>The installed capacity of traditional baseload generators (e.g., nuclear, coal).</doc>
-				<eqn>50</eqn>
-				<inflow>baseload_deployment_rate</inflow>
-				<outflow>baseload_decommissioning_rate</outflow>
-				<units>GW</units>
-			</stock>
-			<aux name="demand for energy 1" access="input">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
-				<units>TWh/year</units>
-			</aux>
-			<aux name="TW to GW">
-				<eqn>1000</eqn>
-				<units>GW</units>
-			</aux>
-			<aux name="Secondary Fossil Energy Output" access="input">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
-				<units>TWh/Year</units>
-			</aux>
-			<aux name="TW to GW 1">
-				<eqn>1000</eqn>
-				<units>GW</units>
-			</aux>
-			<aux name="Nuclear Energy Output" access="input">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
-				<units>TWh/Year</units>
-			</aux>
-			<aux name="Converter 1">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>(Nuclear_Energy_Output+Secondary_Fossil_Energy_Output)*TW_to_GW_1/hours_in_year</eqn>
-				<units>GWh</units>
-			</aux>
-		</variables>
-		<views>
-			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
-				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
-				<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
-				<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
-				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
-					<isee:series_styles>
-						<isee:series_style color="blue" thickness="1"/>
-						<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
-						<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
-						<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
-						<isee:series_style color="#FF7F00" thickness="1"/>
-						<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
-						<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
-						<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
-						<isee:series_style color="#FF007F" thickness="1"/>
-						<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
-						<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
-						<isee:series_style color="black" thickness="1" pen_style="dashed"/>
-						<isee:series_style color="#C8C8C8" thickness="1"/>
-					</isee:series_styles>
-				</graph>
-				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
-				<button color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595"/>
-				<isee:annotation color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595" popup_corner_radius="0" popup_background_color="#FFFECF"/>
-				<slider color="#0075FF" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" vertical="false" isee:fancy_appearance="false" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
-				<isee:stacked_container color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="0" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
-				<isee:dual_slider color="#66CC66" background="silver" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
-				<isee:sim_speed_slider color="black" background="white"/>
-				<isee:time_slider color="#E95F74" background="silver"/>
-				<isee:pie_input color="black" background="white" font_size="12pt" legend_position="bottom" isee:transparent="false"/>
-				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom" wrap_title="true"/>
-				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
-				<isee:dropdown_input color="black" background="white" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
-				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top" wrap_title="true" isee:appearance="switch" isee:on_color="green"/>
-				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
-				<graphical_input color="black" background="#E0E0E0" font_size="12pt" isee:show_hover_tip="true"/>
-				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
-				<lamp color="black" background="white" font_size="9pt"/>
-				<gauge color="black" background="white" font_size="9pt" needle_color="#F09F72" bar_color="#EEEEEE" bar_progress_color="black" appearance="radial" num_major_ticks="11" num_minor_ticks="11" show_numeric_value="true"/>
-				<isee:spatial_map color="black" background="white" font_size="12pt"/>
-				<isee:animation_object color="black" background="white" font_size="12pt"/>
-				<isee:navigation_widget color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="6" appearance="tabs" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
-				<isee:shape color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid" opacity="1" transparent_background="true" corner_radius="1"/>
-				<isee:selector color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
-				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
-				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
-			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="298.571" isee:scroll_y="369.286" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
-				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
-					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
-						<shape type="rectangle" width="45" height="35"/>
-					</stock>
-					<flow color="blue" background="white" font_color="blue" font_size="11pt" label_side="bottom">
-						<shape type="circle" radius="18"/>
-					</flow>
-					<isee:placeholder color="#228B22" background="white" font_color="#228B22" font_size="11pt" label_side="bottom"/>
-					<module color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
-						<shape type="rectangle" width="67" height="55"/>
-					</module>
-					<aux color="blue" background="white" font_color="blue" font_size="11pt" label_side="bottom">
-						<shape type="circle" radius="18"/>
-					</aux>
-					<group color="red" background="white" font_color="red" font_size="11pt"/>
-					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" isee:thickness="1"/>
-					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
-					<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
-					<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
-					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
-						<isee:series_styles>
-							<isee:series_style color="blue" thickness="1"/>
-							<isee:series_style color="red" thickness="1"/>
-							<isee:series_style color="#008F44" thickness="1"/>
-							<isee:series_style color="#FF7F00" thickness="1"/>
-							<isee:series_style color="#7F00FF" thickness="1"/>
-							<isee:series_style color="#0CA0FF" thickness="1"/>
-							<isee:series_style color="lime" thickness="1"/>
-							<isee:series_style color="#FF007F" thickness="1"/>
-							<isee:series_style color="aqua" thickness="1"/>
-							<isee:series_style color="#F586FF" thickness="1"/>
-							<isee:series_style color="black" thickness="1"/>
-							<isee:series_style color="#C8C8C8" thickness="1"/>
-						</isee:series_styles>
-					</graph>
-					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
-				</style>
-				<flow x="148.938" y="526.25" name="vre deployment rate">
-					<pts>
-						<pt x="80.625" y="526.25"/>
-						<pt x="217.25" y="526.25"/>
-					</pts>
-				</flow>
-				<flow x="326" y="531.25" name="vre decommissioning rate">
-					<pts>
-						<pt x="262.25" y="531.25"/>
-						<pt x="413.75" y="531.25"/>
-					</pts>
-				</flow>
-				<aux x="326" y="579.542" name="vre lifetime"/>
-				<aux x="291.375" y="409.25" name="desired vre deployment rate"/>
-				<aux x="210.958" y="330" name="vre deployment goal"/>
-				<aux x="370" y="330" name="vre integration feasibility"/>
-				<aux x="435.375" y="409.25" name="vre integration impacts"/>
-				<aux x="604.333" y="546.833" name="system flexibility"/>
-				<flow x="785.583" y="630.074" name="electricity storage\ndeployment rate">
-					<pts>
-						<pt x="721.833" y="630.074"/>
-						<pt x="849.333" y="630.074"/>
-					</pts>
-				</flow>
-				<flow x="946.427" y="630.074" name="electricity storage\ndecommissioning rate">
-					<pts>
-						<pt x="894.333" y="630.074"/>
-						<pt x="1022.52" y="630.074"/>
-					</pts>
-				</flow>
-				<aux x="903.333" y="704.167" name="storage lifetime"/>
-				<flow x="778.917" y="467.5" name="flexible thermal\ndeployment rate">
-					<pts>
-						<pt x="715.167" y="467.5"/>
-						<pt x="842.667" y="467.5"/>
-					</pts>
-				</flow>
-				<flow x="939.419" y="467.5" name="flexible thermal decommissioning rate">
-					<pts>
-						<pt x="887.667" y="467.5"/>
-						<pt x="1015.17" y="467.5"/>
-					</pts>
-				</flow>
-				<aux x="1017.34" y="524.833" name="flexible thermal lifetime"/>
-				<aux x="610" y="470.333" name="desired flexible capacity deployment rate"/>
-				<aux x="599.5" y="372.833" name="flexible capacity\ninvestment factor"/>
-				<flow x="777.083" y="804.333" name="baseload deployment rate">
-					<pts>
-						<pt x="713.333" y="804.333"/>
-						<pt x="840.833" y="804.333"/>
-					</pts>
-				</flow>
-				<flow x="937.582" y="804.333" name="baseload decommissioning rate">
-					<pts>
-						<pt x="885.833" y="804.333"/>
-						<pt x="1013.33" y="804.333"/>
-					</pts>
-				</flow>
-				<aux x="996.5" y="743.666" name="baseload lifetime"/>
-				<aux x="772.833" y="905.333" name="baseload decommissioning factor"/>
-				<aux x="547" y="887.333" name="baseload utilization"/>
-				<aux x="435.25" y="691" name="baseload demand share"/>
-				<aux x="339" y="691" name="vre generation"/>
-				<aux x="221.708" y="695.125" name="vre capacity factor"/>
-				<aux x="402" y="843.167" name="hours in year"/>
-				<aux x="477.542" y="549.25" name="curtailment rate"/>
-				<aux x="586.333" y="691" name="flexible generation"/>
-				<aux x="643.208" y="722.167" name="flexible capacity factor"/>
-				<stock x="239.75" y="532.875" name="VRE Deployment"/>
-				<stock x="871.833" y="628.167" name="Electricity Storage Capacity"/>
-				<stock x="865.167" y="467.5" name="Flexible Thermal Capacity"/>
-				<stock x="863.333" y="804.333" name="Baseload Capacity"/>
-				<connector uid="1" polarity="+" isee:polarity_placement="outside" angle="32.2908">
-					<isee:documentation>Reasoning:
-As the installed capacity of Variable Renewable Energy (VRE) increases, the challenges and costs associated with integrating it into the grid tend to rise due to its variability and uncertainty.
-
-Polarity Reasoning: 
-An increase in VRE Deployment leads to an increase in VRE Integration Impacts.</isee:documentation>
-					<from>VRE_Deployment</from>
-					<to>vre_integration_impacts</to>
-				</connector>
-				<connector uid="2" polarity="+" isee:polarity_placement="outside" angle="2.25792">
-					<isee:documentation>Reasoning:
-Higher VRE integration impacts create a greater need and incentive to deploy flexible energy solutions (storage, flexible thermal) to mitigate these challenges.
-
-Polarity Reasoning: 
-An increase in VRE Integration Impacts leads to an increase in the Desired Flexible Capacity Deployment Rate.</isee:documentation>
-					<from>vre_integration_impacts</from>
-					<to>desired_flexible_capacity_deployment_rate</to>
-				</connector>
-				<connector uid="3" polarity="+" isee:polarity_placement="outside" angle="317.705">
-					<isee:documentation>Reasoning:
-The overall desired rate for flexible capacity deployment directly translates into the deployment rates for individual flexible technologies, including electricity storage.
-
-Polarity Reasoning: 
-An increase in the Desired Flexible Capacity Deployment Rate leads to an increase in the Electricity Storage Deployment Rate.</isee:documentation>
-					<from>desired_flexible_capacity_deployment_rate</from>
-					<to>electricity_storage_deployment_rate</to>
-				</connector>
-				<connector uid="4" polarity="+" isee:polarity_placement="outside" angle="160.342">
-					<isee:documentation>Reasoning:
-Increased electricity storage capacity contributes to the overall flexibility of the electricity system, allowing for better management of VRE variability.
-
-Polarity Reasoning: 
-An increase in Electricity Storage Capacity leads to an increase in System Flexibility.</isee:documentation>
-					<from>Electricity_Storage_Capacity</from>
-					<to>system_flexibility</to>
-				</connector>
-				<connector uid="5" polarity="-" isee:polarity_placement="outside" angle="140.844">
-					<isee:documentation>Reasoning:
-A more flexible electricity system is better equipped to handle the variability of VRE, thereby reducing the negative impacts and costs associated with VRE integration.
-
-Polarity Reasoning: 
-An increase in System Flexibility leads to a decrease in VRE Integration Impacts.</isee:documentation>
-					<from>system_flexibility</from>
-					<to>vre_integration_impacts</to>
-				</connector>
-				<connector uid="6" polarity="-" isee:polarity_placement="outside" angle="105.58">
-					<isee:documentation>Reasoning:
-As the challenges and costs of VRE integration increase, the overall feasibility of deploying more VRE decreases, making further deployment less attractive or harder to achieve.
-
-Polarity Reasoning: 
-An increase in VRE Integration Impacts leads to a decrease in VRE Integration Feasibility.</isee:documentation>
-					<from>vre_integration_impacts</from>
-					<to>vre_integration_feasibility</to>
-				</connector>
-				<connector uid="7" polarity="+" isee:polarity_placement="outside" angle="225.227">
-					<isee:documentation>Reasoning:
-When VRE integration is more feasible, it encourages a higher rate of VRE deployment, as the barriers to expansion are reduced.
-
-Polarity Reasoning: 
-An increase in VRE Integration Feasibility leads to an increase in the Desired VRE Deployment Rate.</isee:documentation>
-					<from>vre_integration_feasibility</from>
-					<to>desired_vre_deployment_rate</to>
-				</connector>
-				<connector uid="8" polarity="+" isee:polarity_placement="outside" angle="0.960851">
-					<isee:documentation>Reasoning:
-The overall desired rate for flexible capacity deployment directly translates into the deployment rates for individual flexible technologies, including flexible thermal power plants.
-
-Polarity Reasoning: 
-An increase in the Desired Flexible Capacity Deployment Rate leads to an increase in the Flexible Thermal Deployment Rate.</isee:documentation>
-					<from>desired_flexible_capacity_deployment_rate</from>
-					<to>flexible_thermal_deployment_rate</to>
-				</connector>
-				<connector uid="9" polarity="+" isee:polarity_placement="outside" angle="208.453">
-					<isee:documentation>Reasoning:
-Increased flexible thermal capacity enhances the overall flexibility of the electricity system by providing dispatchable generation that can ramp up and down quickly.
-
-Polarity Reasoning: 
-An increase in Flexible Thermal Capacity leads to an increase in System Flexibility.</isee:documentation>
-					<from>Flexible_Thermal_Capacity</from>
-					<to>system_flexibility</to>
-				</connector>
-				<connector uid="10" polarity="+" isee:polarity_placement="outside" angle="302.115">
-					<isee:documentation>Reasoning:
-A larger installed VRE capacity naturally leads to a higher potential for VRE generation, assuming capacity factors and curtailment.
-
-Polarity Reasoning: 
-An increase in VRE Deployment leads to an proportionate increase in VRE Generation.</isee:documentation>
-					<from>VRE_Deployment</from>
-					<to>vre_generation</to>
-				</connector>
-				<connector uid="11" polarity="-" isee:polarity_placement="outside" angle="0">
-					<isee:documentation>Reasoning:
-As VRE generation increases, it meets a larger portion of the total electricity demand, reducing the remaining demand that needs to be covered by baseload power plants.
-
-Polarity Reasoning: 
-An increase in VRE Generation leads to a decrease in Baseload Demand Share.</isee:documentation>
-					<from>vre_generation</from>
-					<to>baseload_demand_share</to>
-				</connector>
-				<connector uid="12" polarity="+" isee:polarity_placement="outside" angle="262.883">
-					<isee:documentation>Reasoning:
-A larger capacity of flexible resources allows for more flexible generation, which can be dispatched to meet demand or integrate VRE.
-
-Polarity Reasoning: 
-An increase in System Flexibility leads to an increase in Flexible Generation.</isee:documentation>
-					<from>system_flexibility</from>
-					<to>flexible_generation</to>
-				</connector>
-				<connector uid="13" polarity="-" isee:polarity_placement="outside" angle="180">
-					<isee:documentation>Reasoning:
-As flexible generation increases, it helps meet electricity demand, thereby reducing the portion of demand that traditional baseload power plants need to supply.
-
-Polarity Reasoning: 
-An increase in Flexible Generation leads to a decrease in Baseload Demand Share.</isee:documentation>
-					<from>flexible_generation</from>
-					<to>baseload_demand_share</to>
-				</connector>
-				<connector uid="14" polarity="+" isee:polarity_placement="outside" angle="299.648">
-					<isee:documentation>Reasoning:
-A larger share of demand that needs to be met by baseload capacity implies higher utilization of those baseload plants.
-
-Polarity Reasoning: 
-An increase in Baseload Demand Share leads to an increase in Baseload Utilization.</isee:documentation>
-					<from>baseload_demand_share</from>
-					<to>baseload_utilization</to>
-				</connector>
-				<connector uid="15" polarity="+" isee:polarity_placement="outside" angle="31.5106">
-					<isee:documentation>Reasoning:
-A higher decommissioning factor, driven by low utilization, directly increases the rate at which baseload capacity is retired.
-
-Polarity Reasoning: 
-An increase in the Baseload Decommissioning Factor leads to an increase in the Baseload Decommissioning Rate.</isee:documentation>
-					<from>baseload_decommissioning_factor</from>
-					<to>baseload_decommissioning_rate</to>
-				</connector>
-				<connector uid="16" polarity="+" isee:polarity_placement="outside" angle="286.762">
-					<isee:documentation>Reasoning:
-Higher VRE integration impacts, indicating greater mismatches between supply and demand, lead to an increased need for VRE curtailment.
-
-Polarity Reasoning: 
-An increase in VRE Integration Impacts leads to an increase in Curtailment Rate.</isee:documentation>
-					<from>vre_integration_impacts</from>
-					<to>curtailment_rate</to>
-				</connector>
-				<connector uid="17" polarity="+" isee:polarity_placement="outside" angle="219.4">
-					<isee:documentation>Reasoning:
-The desired rate directly drives the actual deployment rate.
-
-Polarity Reasoning: 
-An increase in the Desired VRE Deployment Rate leads to an increase in the VRE Deployment Rate.</isee:documentation>
-					<from>desired_vre_deployment_rate</from>
-					<to>vre_deployment_rate</to>
-				</connector>
-				<connector uid="18" polarity="+" isee:polarity_placement="outside" angle="21.4195">
-					<isee:documentation>Reasoning:
-More installed VRE capacity means more capacity is subject to decommissioning over its lifetime.
-
-Polarity Reasoning: 
-An increase in VRE Deployment leads to an increase in the VRE Decommissioning Rate.</isee:documentation>
-					<from>VRE_Deployment</from>
-					<to>vre_decommissioning_rate</to>
-				</connector>
-				<connector uid="19" polarity="-" isee:polarity_placement="outside" angle="90">
-					<isee:documentation>Reasoning:
-A longer lifetime means a slower decommissioning rate for a given capacity.
-
-Polarity Reasoning: 
-An increase in VRE Lifetime leads to a decrease in the VRE Decommissioning Rate.</isee:documentation>
-					<from>vre_lifetime</from>
-					<to>vre_decommissioning_rate</to>
-				</connector>
-				<connector uid="20" polarity="+" isee:polarity_placement="outside" angle="315.419">
-					<isee:documentation>Reasoning:
-A higher deployment goal directly increases the desired rate of VRE deployment.
-
-Polarity Reasoning: 
-An increase in VRE Deployment Goal leads to an increase in the Desired VRE Deployment Rate.</isee:documentation>
-					<from>vre_deployment_goal</from>
-					<to>desired_vre_deployment_rate</to>
-				</connector>
-				<connector uid="21" polarity="+" isee:polarity_placement="outside" angle="23.5357">
-					<isee:documentation>Reasoning:
-More installed storage capacity means more capacity is subject to decommissioning over its lifetime.
-
-Polarity Reasoning: 
-An increase in Electricity Storage Capacity leads to an increase in the Electricity Storage Decommissioning Rate.</isee:documentation>
-					<from>Electricity_Storage_Capacity</from>
-					<to>electricity_storage_decommissioning_rate</to>
-				</connector>
-				<connector uid="22" polarity="-" isee:polarity_placement="outside" angle="84.8173">
-					<isee:documentation>Reasoning:
-A longer lifetime means a slower decommissioning rate for a given storage capacity.
-
-Polarity Reasoning: 
-An increase in Storage Lifetime leads to a decrease in the Electricity Storage Decommissioning Rate.</isee:documentation>
-					<from>storage_lifetime</from>
-					<to>electricity_storage_decommissioning_rate</to>
-				</connector>
-				<connector uid="23" polarity="+" isee:polarity_placement="outside" angle="25">
-					<isee:documentation>Reasoning:
-More installed flexible thermal capacity means more capacity is subject to decommissioning over its lifetime.
-
-Polarity Reasoning: 
-An increase in Flexible Thermal Capacity leads to an increase in the Flexible Thermal Decommissioning Rate.</isee:documentation>
-					<from>Flexible_Thermal_Capacity</from>
-					<to>flexible_thermal_decommissioning_rate</to>
-				</connector>
-				<connector uid="24" polarity="-" isee:polarity_placement="outside" angle="168.652">
-					<isee:documentation>Reasoning:
-A longer lifetime means a slower decommissioning rate for a given flexible thermal capacity.
-
-Polarity Reasoning: 
-An increase in Flexible Thermal Lifetime leads to a decrease in the Flexible Thermal Decommissioning Rate.</isee:documentation>
-					<from>flexible_thermal_lifetime</from>
-					<to>flexible_thermal_decommissioning_rate</to>
-				</connector>
-				<connector uid="25" polarity="+" isee:polarity_placement="outside" angle="324.801">
-					<isee:documentation>Reasoning:
-A higher investment factor means a greater desired deployment rate for flexible capacity for a given level of VRE integration impacts.
-
-Polarity Reasoning: 
-An increase in Flexible Capacity Investment Factor leads to an increase in the Desired Flexible Capacity Deployment Rate.</isee:documentation>
-					<from>flexible_capacity_investment_factor</from>
-					<to>desired_flexible_capacity_deployment_rate</to>
-				</connector>
-				<connector uid="26" polarity="+" isee:polarity_placement="outside" angle="25">
-					<isee:documentation>Reasoning:
-More installed baseload capacity means more capacity is subject to decommissioning over its lifetime.
-
-Polarity Reasoning: 
-An increase in Baseload Capacity leads to an increase in the Baseload Decommissioning Rate.</isee:documentation>
-					<from>Baseload_Capacity</from>
-					<to>baseload_decommissioning_rate</to>
-				</connector>
-				<connector uid="27" polarity="-" isee:polarity_placement="outside" angle="262.296">
-					<isee:documentation>Reasoning:
-A longer lifetime means a slower decommissioning rate for a given baseload capacity.
-
-Polarity Reasoning: 
-An increase in Baseload Lifetime leads to a decrease in the Baseload Decommissioning Rate.</isee:documentation>
-					<from>baseload_lifetime</from>
-					<to>baseload_decommissioning_rate</to>
-				</connector>
-				<connector uid="28" polarity="-" isee:polarity_placement="outside" angle="201.801">
-					<isee:documentation>Reasoning:
-For a given baseload demand share, higher baseload capacity leads to lower utilization.
-
-Polarity Reasoning: 
-An increase in Baseload Capacity leads to a decrease in Baseload Utilization.</isee:documentation>
-					<from>Baseload_Capacity</from>
-					<to>baseload_utilization</to>
-				</connector>
-				<connector uid="29" polarity="-" isee:polarity_placement="outside" angle="343.059">
-					<isee:documentation>Reasoning:
-For a given baseload demand share and capacity, more hours in a month would imply lower average utilization if demand is constant.
-
-Polarity Reasoning: 
-An increase in Hours in Month leads to a decrease in Baseload Utilization.</isee:documentation>
-					<from>hours_in_year</from>
-					<to>baseload_utilization</to>
-				</connector>
-				<connector uid="31" polarity="+" isee:polarity_placement="outside" angle="6.23979">
-					<isee:documentation>Reasoning:
-A higher capacity factor means more generation from the same VRE capacity.
-
-Polarity Reasoning: 
-An increase in VRE Capacity Factor leads to an increase in VRE Generation.</isee:documentation>
-					<from>vre_capacity_factor</from>
-					<to>vre_generation</to>
-				</connector>
-				<connector uid="32" polarity="+" isee:polarity_placement="outside" angle="109.659">
-					<isee:documentation>Reasoning:
-More hours in a month means more potential generation from VRE capacity.
-
-Polarity Reasoning: 
-An increase in Hours in Month leads to an increase in VRE Generation.</isee:documentation>
-					<from>hours_in_year</from>
-					<to>vre_generation</to>
-				</connector>
-				<connector uid="33" polarity="-" isee:polarity_placement="outside" angle="225.656">
-					<isee:documentation>Reasoning:
-A higher curtailment rate means less VRE generation is actually delivered to the grid.
-
-Polarity Reasoning: 
-An increase in Curtailment Rate leads to a decrease in VRE Generation.</isee:documentation>
-					<from>curtailment_rate</from>
-					<to>vre_generation</to>
-				</connector>
-				<connector uid="34" polarity="+" isee:polarity_placement="outside" angle="160.514">
-					<isee:documentation>Reasoning:
-A higher capacity factor means more generation from the same flexible capacity.
-
-Polarity Reasoning: 
-An increase in Flexible Capacity Factor leads to an increase in Flexible Generation.</isee:documentation>
-					<from>flexible_capacity_factor</from>
-					<to>flexible_generation</to>
-				</connector>
-				<connector uid="35" polarity="+" isee:polarity_placement="outside" angle="39.5396">
-					<isee:documentation>Reasoning:
-More hours in a month means more potential generation from flexible capacity.
-
-Polarity Reasoning: 
-An increase in Hours in Month leads to an increase in Flexible Generation.</isee:documentation>
-					<from>hours_in_year</from>
-					<to>flexible_generation</to>
-				</connector>
-				<connector uid="36" polarity="-" isee:polarity_placement="outside" angle="355.443">
-					<isee:documentation>Reasoning:
-Lower utilization of baseload plants makes them less economically viable, increasing the likelihood or speed of their decommissioning.
-
-Polarity Reasoning: 
-A decrease in Baseload Utilization leads to an increase in the Baseload Decommissioning Factor.</isee:documentation>
-					<from>baseload_utilization</from>
-					<to>baseload_decommissioning_factor</to>
-				</connector>
-				<aux font_style="italic" font_weight="bold" x="482.143" y="640" name="demand for energy 1"/>
-				<connector uid="37" angle="221.987">
-					<from>demand_for_energy_1</from>
-					<to>baseload_demand_share</to>
-				</connector>
-				<aux x="409.286" y="740.167" name="TW to GW"/>
-				<connector uid="38" angle="55.9085">
-					<from>TW_to_GW</from>
-					<to>baseload_demand_share</to>
-				</connector>
-				<aux font_style="italic" font_weight="bold" x="1067.86" y="913.833" name="Secondary Fossil Energy Output"/>
-				<aux x="1067.86" y="869.333" name="TW to GW 1"/>
-				<aux font_style="italic" font_weight="bold" x="954.286" y="917.143" name="Nuclear Energy Output"/>
-				<aux x="990" y="882.143" name="Converter 1"/>
-				<connector uid="39" angle="46.3972">
-					<from>Nuclear_Energy_Output</from>
-					<to>Converter_1</to>
-				</connector>
-				<connector uid="40" angle="141.222">
-					<from>Secondary_Fossil_Energy_Output</from>
-					<to>Converter_1</to>
-				</connector>
-				<connector uid="41" angle="164.665">
-					<from>TW_to_GW_1</from>
-					<to>Converter_1</to>
-				</connector>
-				<connector uid="42" angle="356.821">
-					<from>hours_in_year</from>
-					<to>Converter_1</to>
-				</connector>
-				<connector uid="43" angle="153.435">
-					<from>Converter_1</from>
-					<to>baseload_deployment_rate</to>
 				</connector>
 			</view>
 		</views>

@@ -237,16 +237,14 @@
 		<unit name="GtN2O">
 			<eqn>Giga*tN2O</eqn>
 		</unit>
+		<unit name="Hour">
+			<eqn/>
+			<alias>Hours</alias>
+		</unit>
 		<unit name="Dimensionless">
 			<eqn>1</eqn>
 			<alias>dmnl</alias>
 			<alias>unitless</alias>
-			<alias>fraction</alias>
-		</unit>
-		<unit name="Hours">
-			<eqn/>
-			<alias>hr</alias>
-			<alias>hour</alias>
 		</unit>
 	</model_units>
 	<model name="Energy" run="true">
@@ -17551,7 +17549,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<dimensions>
 					<dim name="Run"/>
 				</dimensions>
-				<eqn>-4.125677361767771e-34*Surface_Temperature_Anomaly_1 +0.05</eqn>
+				<eqn>frequency_slope*Surface_Temperature_Anomaly_1 +frequency_intercept</eqn>
 				<units>dmnl</units>
 			</aux>
 			<aux name="Full Load Hours loss">
@@ -17566,7 +17564,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<dimensions>
 					<dim name="Run"/>
 				</dimensions>
-				<eqn>0.04*Surface_Temperature_Anomaly_1-0.01</eqn>
+				<eqn>duration_slope*Surface_Temperature_Anomaly_1-duration_intercept</eqn>
 				<units>dmnl</units>
 			</aux>
 			<aux name="CAPEX">
@@ -17593,6 +17591,18 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 			<aux name="Round-trip Efficiency (DOD)">
 				<doc>mean value for all technologies, from Table 6 in  Storage Futures Study: Storage Technology Modeling Input Data Report del National Renewable Energy Laboratory (NREL)</doc>
 				<eqn>0.684</eqn>
+			</aux>
+			<aux name="duration slope">
+				<eqn>0.04</eqn>
+			</aux>
+			<aux name="frequency slope">
+				<eqn>-4.125677361767771e-34</eqn>
+			</aux>
+			<aux name="duration intercept">
+				<eqn>0.01</eqn>
+			</aux>
+			<aux name="frequency intercept">
+				<eqn>0.05</eqn>
 			</aux>
 		</variables>
 		<views>
@@ -17643,7 +17653,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="278" isee:scroll_y="196" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17682,7 +17692,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					</graph>
 					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 				</style>
-				<aux label_side="bottom" x="887.667" y="662" name="Wind Energy\nFull Load Hours"/>
+				<aux background="#99C1F1" label_side="bottom" x="1020.67" y="676" name="Wind Energy\nFull Load Hours"/>
 				<stock x="555.71" y="431.253" width="51.4286" height="83.5714" name="Wind Energy\nInstalled Capacity"/>
 				<flow x="458.14" y="479.553" name="Renewable Energy\nCapacity Construction">
 					<pts>
@@ -17712,7 +17722,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<to>Wind_Energy_Capacity</to>
 				</connector>
 				<aux label_angle="258.411" x="672.64" y="563.363" name="Renewable Energy\nCapacity Decay Fractions"/>
-				<aux label_side="bottom" x="813.5" y="308.68" name="Renewable Energy Capacity\nVintage Duration"/>
+				<aux label_side="bottom" x="793.54" y="248.68" name="Renewable Energy Capacity\nVintage Duration"/>
 				<aux background="#FFAAFF" x="162.5" y="721.216" name="Installation Cost\nof Wind capacity"/>
 				<aux color="black" font_color="black" x="276.25" y="685.403" name="Wind Energy\nLearning Rate"/>
 				<aux color="blue" x="92.22" y="900.523" name="Renewable Energy\nFloor Costs"/>
@@ -17817,7 +17827,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<text_box uid="26" x="966.905" y="29.5714" width="260" height="58">storage goes here will increase the statistical full load hours</text_box>
 				<aux x="785.71" y="780" name="extra capacity needed\nfor delta Energy"/>
 				<aux font_style="italic" font_weight="bold" label_side="bottom" x="803.71" y="842.143" name="deltaEnergy for costs"/>
-				<connector uid="27" angle="229.172">
+				<connector uid="27" angle="203.876">
 					<from>Wind_Energy_Full_Load_Hours</from>
 					<to>extra_capacity_needed_for_delta_Energy</to>
 				</connector>
@@ -17924,7 +17934,7 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<from>Wind_Energy_Capacity</from>
 					<to>Wind_Energy_Output</to>
 				</connector>
-				<connector uid="15" angle="147.593">
+				<connector uid="15" angle="160.839">
 					<from>Wind_Energy_Full_Load_Hours</from>
 					<to>Wind_Energy_Output</to>
 				</connector>
@@ -17964,18 +17974,18 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<from>reference_installation_cost</from>
 					<to>actual_renewable_energy_floor_costs</to>
 				</connector>
-				<aux label_side="bottom" x="993" y="541.553" name="Initial Wind Energy\nFull Load Hours"/>
+				<aux label_side="bottom" x="1126" y="555.553" name="Initial Wind Energy\nFull Load Hours"/>
 				<connector uid="59" color="#8FF0A4" font_color="#8FF0A4" angle="253.967">
 					<from>Initial_Wind_Energy_Full_Load_Hours</from>
 					<to>Wind_Energy_Full_Load_Hours_Onshore</to>
 				</connector>
-				<aux label_side="bottom" x="998" y="631.253" name="Wind Energy\nFull Load Hours Onshore"/>
-				<aux x="1207.17" y="625.253" name="Onshore wind speed anomaly"/>
+				<aux label_side="bottom" x="1131" y="645.253" name="Wind Energy\nFull Load Hours Onshore"/>
+				<aux x="1340.17" y="639.253" name="Onshore wind speed anomaly"/>
 				<connector uid="64" color="#8FF0A4" font_color="#8FF0A4" angle="162.823">
 					<from>Onshore_wind_speed_anomaly</from>
 					<to>Wind_Energy_Full_Load_Hours_Onshore</to>
 				</connector>
-				<aux x="1109.5" y="541.553" name="Absolute historical\nwind speed 1981 to 2011"/>
+				<aux x="1242.5" y="555.553" name="Absolute historical\nwind speed 1981 to 2011"/>
 				<connector uid="65" color="#8FF0A4" font_color="#8FF0A4" angle="207.101">
 					<from>Absolute_historical_wind_speed_1981_to_2011</from>
 					<to>Wind_Energy_Full_Load_Hours_Onshore</to>
@@ -17984,19 +17994,19 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<from>Wind_Energy_Full_Load_Hours_Onshore</from>
 					<to>Wind_Energy_Full_Load_Hours</to>
 				</connector>
-				<aux font_style="italic" font_weight="bold" x="1413.57" y="608.823" name="Surface Temperature Anomaly 1"/>
+				<aux font_style="italic" font_weight="bold" x="1546.57" y="622.823" name="Surface Temperature Anomaly 1"/>
 				<connector uid="68" color="#8FF0A4" font_color="#8FF0A4" angle="162.123">
 					<from>Surface_Temperature_Anomaly_1</from>
 					<to>Onshore_wind_speed_anomaly</to>
 				</connector>
-				<aux x="1257.86" y="541.553" name="conversion factor between surface\ntemperature anomaly\nand wind speed"/>
+				<aux x="1390.86" y="555.553" name="conversion factor between surface\ntemperature anomaly\nand wind speed"/>
 				<connector uid="71" color="#8FF0A4" font_color="#8FF0A4" angle="228.044">
 					<from>conversion_factor_between_surface_temperature_anomaly_and_wind_speed</from>
 					<to>Onshore_wind_speed_anomaly</to>
 				</connector>
-				<aux x="970.143" y="423.571" name="Frequency of\nlow wind extremes"/>
-				<aux x="919.5" y="502.571" name="Full Load Hours loss"/>
-				<connector uid="76" color="#8FF0A4" font_color="#8FF0A4" angle="212.028">
+				<aux x="1128.28" y="437.571" name="Frequency of\nlow wind extremes"/>
+				<aux x="1052.5" y="516.571" name="Full Load Hours loss"/>
+				<connector uid="76" color="#8FF0A4" font_color="#8FF0A4" angle="200.882">
 					<from>Frequency_of_low_wind_extremes</from>
 					<to>Full_Load_Hours_loss</to>
 				</connector>
@@ -18008,16 +18018,16 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 					<from>Full_Load_Hours_loss</from>
 					<to>Wind_Energy_Full_Load_Hours</to>
 				</connector>
-				<connector uid="81" color="#8FF0A4" font_color="#8FF0A4" angle="130.142">
+				<connector uid="81" color="#8FF0A4" font_color="#8FF0A4" angle="128.928">
 					<from>Surface_Temperature_Anomaly_1</from>
 					<to>Frequency_of_low_wind_extremes</to>
 				</connector>
-				<aux label_side="bottom" x="887.667" y="423.571" name="Duration of\nlow wind extremes"/>
-				<connector uid="82" color="#8FF0A4" font_color="#8FF0A4" angle="121.54">
+				<aux label_side="bottom" x="995.28" y="437.571" name="Duration of\nlow wind extremes"/>
+				<connector uid="82" color="#8FF0A4" font_color="#8FF0A4" angle="122.371">
 					<from>Surface_Temperature_Anomaly_1</from>
 					<to>Duration_of_low_wind_extremes</to>
 				</connector>
-				<connector uid="83" color="#8FF0A4" font_color="#8FF0A4" angle="308.562">
+				<connector uid="83" color="#8FF0A4" font_color="#8FF0A4" angle="322.531">
 					<from>Duration_of_low_wind_extremes</from>
 					<to>Full_Load_Hours_loss</to>
 				</connector>
@@ -18027,6 +18037,26 @@ if  the global temperature has increased on average by 0.34 °C/10 a from 1989 t
 				<aux x="1208.57" y="112.5" name="mean projected\nlifetime of batteries"/>
 				<aux x="1208.57" y="199" name="cycles per year"/>
 				<aux x="1314" y="112.5" name="Round-trip Efficiency (DOD)"/>
+				<aux label_side="bottom" x="959.28" y="377" name="duration slope"/>
+				<connector uid="84" color="#8FF0A4" font_color="#8FF0A4" angle="300.725">
+					<from>duration_slope</from>
+					<to>Duration_of_low_wind_extremes</to>
+				</connector>
+				<aux label_side="bottom" x="1108" y="377" name="frequency slope"/>
+				<connector uid="85" color="#8FF0A4" font_color="#8FF0A4" angle="288.511">
+					<from>frequency_slope</from>
+					<to>Frequency_of_low_wind_extremes</to>
+				</connector>
+				<aux label_side="top" x="1038.67" y="377" name="duration intercept"/>
+				<aux label_side="top" x="1182.5" y="377" name="frequency intercept"/>
+				<connector uid="86" color="#8FF0A4" font_color="#8FF0A4" angle="234.386">
+					<from>duration_intercept</from>
+					<to>Duration_of_low_wind_extremes</to>
+				</connector>
+				<connector uid="87" color="#8FF0A4" font_color="#8FF0A4" angle="228.167">
+					<from>frequency_intercept</from>
+					<to>Frequency_of_low_wind_extremes</to>
+				</connector>
 			</view>
 		</views>
 	</model>

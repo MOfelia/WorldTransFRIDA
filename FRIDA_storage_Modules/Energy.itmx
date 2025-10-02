@@ -14547,7 +14547,7 @@ Wind_Energy_Output+
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_y="232.778" zoom="180" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="2" isee:scroll_y="296.667" zoom="180" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17333,28 +17333,6 @@ Operating reserve coefficients for VRE (FLEXVRE) and load (FLEXload) in each reg
 			<aux name="FLEX load">
 				<eqn>0.16</eqn>
 			</aux>
-			<aux name="Operating reserve\ncoefficient bio fuel">
-				<eqn>0</eqn>
-				<units>dmnl</units>
-			</aux>
-			<aux name="Operating reserve\ncoefficient hydro">
-				<eqn>0.66</eqn>
-				<units>dmnl</units>
-			</aux>
-			<aux name="Operating reserve\ncoefficient nuclear">
-				<eqn>0.2</eqn>
-			</aux>
-			<aux name="Operating reserve\ncoefficient gas">
-				<eqn>0.86</eqn>
-			</aux>
-			<aux name="Operating reserve\ncoefficient oil">
-				<eqn>0.86</eqn>
-			</aux>
-			<aux name="Operating reserve\ncoefficient coal">
-				<doc>MESSAGE-Table 1: Operating reserve, capacity factor, O&amp;M cost, and efficiency penalty assumptions for flexible operation of thermoelectric power plants </doc>
-				<eqn>0.53</eqn>
-				<units>dmnl</units>
-			</aux>
 			<aux name="bio fuel secondary energy output" access="input">
 				<dimensions>
 					<dim name="Run"/>
@@ -17397,60 +17375,9 @@ Operating reserve coefficients for VRE (FLEXVRE) and load (FLEXload) in each reg
 				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
 				<units>TWh/Year</units>
 			</aux>
-			<aux name="Capacity factor\n(fraction of\ninstalled\ncapacity) coal">
-				<eqn>0.63</eqn>
-				<units>dmnl</units>
-			</aux>
-			<aux name="Capacity factor oil">
-				<eqn>0.49</eqn>
-			</aux>
-			<aux name="Capacity factor gas">
-				<eqn>0.49</eqn>
-			</aux>
-			<aux name="Capacity factor nuclear">
-				<eqn>0.77</eqn>
-			</aux>
-			<aux name="Capacity factor hydro">
-				<eqn>0.42</eqn>
-				<units>dmnl</units>
-			</aux>
-			<aux name="Capacity factor bio fuel">
-				<eqn>0.85</eqn>
-				<units>dmnl</units>
-			</aux>
-			<aux name="Cycling-related\nvariable O&amp;M cost coal">
-				<doc>medium value of range 0.58 - 1.56</doc>
-				<eqn>1.07E-6*hours_2</eqn>
-				<units>h</units>
-			</aux>
-			<aux name="Cycling-related\nvariable O&amp;M cost oil">
-				<doc>medium value of range 9.24 - 9.36</doc>
-				<eqn>9.3E-6*hours_2</eqn>
-				<units>$/TWh</units>
-			</aux>
-			<aux name="Cycling-related\nvariable O&amp;M cost gas">
-				<doc>medium value of range 9.24 - 9.36</doc>
-				<eqn>9.3E-6*hours_2</eqn>
-				<units>$/MWh</units>
-			</aux>
-			<aux name="Cycling-related\nvariable O&amp;M cost nuclear">
-				<doc>medium value of range 1.28 - 1.39</doc>
-				<eqn>1.335*hours_2</eqn>
-				<units>$/MWh</units>
-			</aux>
-			<aux name="Efficiency Penalty coal">
-				<eqn>0.06</eqn>
-				<units>dmnl</units>
-			</aux>
-			<aux name="Efficiency Penalty oil">
-				<eqn>8</eqn>
-				<units>%</units>
-			</aux>
-			<aux name="Efficiency Penalty gas">
-				<eqn>8</eqn>
-				<units>%</units>
-			</aux>
 			<aux name="CF baseload">
+				<doc>Baseload operation provides no operating reserve and assumes a capacity factor of 85%, whereas flexible
+operation provides a portion of generation as operating reserve, but incurs penalties in the form of increased O&amp;M cost and reduced efficiency and capacity factor.</doc>
 				<eqn>0.85</eqn>
 				<units>dmnl</units>
 			</aux>
@@ -17495,13 +17422,6 @@ Operating reserve coefficients for VRE (FLEXVRE) and load (FLEXload) in each reg
 				</dimensions>
 				<eqn>bio_fuel_secondary_energy_output*CF_baseload</eqn>
 				<units>TWh/Year</units>
-			</aux>
-			<aux name="CF FLEX">
-				<doc>0.5*(CFbaseload+minimum(generation))</doc>
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>0</eqn>
 			</aux>
 			<aux name="TW to GW">
 				<eqn>1000</eqn>
@@ -17628,58 +17548,6 @@ additional curtailment could result from inflexible generation, such as coal-fir
 				<eqn>VRE_deployment / (System_flexibility + 1)</eqn>
 				<units>dmnl</units>
 			</aux>
-			<aux name="FLEX coal">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Baseload_coal*Operating_reserve_coefficient_coal*&quot;Capacity_factor_(fraction_of_installed_capacity)_coal&quot;*&quot;Cycling-related_variable_O&amp;M_cost_coal&quot;*Efficiency_Penalty_coal</eqn>
-				<units>$/Year</units>
-			</aux>
-			<aux name="FLEX oil">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Baseload_oil*Operating_reserve_coefficient_oil*Capacity_factor_oil*&quot;Cycling-related_variable_O&amp;M_cost_oil&quot;*Efficiency_Penalty_oil</eqn>
-				<units>$*Million/Year</units>
-			</aux>
-			<aux name="FLEX thermal capacity">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>FLEX_coal+FLEX_oil+FLEX_gas+FLEX_nuclear+FLEX_hydro+FLEX_bio_fuel</eqn>
-				<units>$*Million/Year</units>
-			</aux>
-			<aux name="FLEX gas">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Baseload_gas*Operating_reserve_coefficient_gas*Capacity_factor_gas*&quot;Cycling-related_variable_O&amp;M_cost_gas&quot;*Efficiency_Penalty_gas</eqn>
-				<units>$*Million/Year</units>
-			</aux>
-			<aux name="FLEX nuclear">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Baseload_nuclear*Operating_reserve_coefficient_nuclear*Capacity_factor_nuclear*&quot;Cycling-related_variable_O&amp;M_cost_nuclear&quot;</eqn>
-			</aux>
-			<aux name="FLEX hydro">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Baseload_hydro*Operating_reserve_coefficient_hydro*Capacity_factor_hydro</eqn>
-				<units>TWh/year</units>
-			</aux>
-			<aux name="FLEX bio fuel">
-				<dimensions>
-					<dim name="Run"/>
-				</dimensions>
-				<eqn>Baseload_bio_fuel*Capacity_factor_bio_fuel*Operating_reserve_coefficient_bio_fuel</eqn>
-				<units>TWh/year</units>
-			</aux>
-			<aux name="hours 2">
-				<eqn>8760</eqn>
-				<units>hours/year</units>
-			</aux>
 			<aux name="hours year">
 				<eqn>8760</eqn>
 				<units>hours/year</units>
@@ -17769,6 +17637,7 @@ Installed capacity of Grid-scale battery energy storage system (BESS) - Total Wo
 				<eqn>IF(Curtailment_short/cycles_per_year &lt;=Energy_stored ) 
 THEN Curtailment_short
  ELSE 0</eqn>
+				<units>GWh</units>
 			</aux>
 			<aux name="CAPEX per kW year">
 				<doc>CAPEX annual per kW</doc>
@@ -17800,6 +17669,188 @@ THEN Curtailment_short
 				</dimensions>
 				<eqn>FLEX_VRE*Total_Solar_and_Wind_Energy_Output_1</eqn>
 				<units>TWh/year</units>
+			</aux>
+			<aux name="Operating reserve\ncoefficient bio fuel">
+				<eqn>0</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Operating reserve\ncoefficient hydro">
+				<eqn>0.66</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Operating reserve\ncoefficient nuclear">
+				<eqn>0.2</eqn>
+			</aux>
+			<aux name="Operating reserve\ncoefficient gas">
+				<eqn>0.86</eqn>
+			</aux>
+			<aux name="Operating reserve\ncoefficient oil">
+				<eqn>0.86</eqn>
+			</aux>
+			<aux name="Operating reserve\ncoefficient coal">
+				<doc>MESSAGE-Table 1: Operating reserve, capacity factor, O&amp;M cost, and efficiency penalty assumptions for flexible operation of thermoelectric power plants </doc>
+				<eqn>0.53</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Capacity factor coal">
+				<eqn>0.63</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Capacity factor oil">
+				<eqn>0.49</eqn>
+			</aux>
+			<aux name="Capacity factor gas">
+				<eqn>0.49</eqn>
+			</aux>
+			<aux name="Capacity factor nuclear">
+				<eqn>0.77</eqn>
+			</aux>
+			<aux name="Capacity factor hydro">
+				<eqn>0.42</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Capacity factor bio fuel">
+				<eqn>0.85</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Cycling-related\nvariable O&amp;M cost coal">
+				<doc>medium value of range 0.58 - 1.56</doc>
+				<eqn>1.07E-6*hours_2</eqn>
+				<units>$/TWh</units>
+			</aux>
+			<aux name="Cycling-related\nvariable O&amp;M cost oil">
+				<doc>medium value of range 9.24 - 9.36</doc>
+				<eqn>9.3E-6*hours_2</eqn>
+				<units>$/TWh</units>
+			</aux>
+			<aux name="Cycling-related\nvariable O&amp;M cost gas">
+				<doc>medium value of range 9.24 - 9.36</doc>
+				<eqn>9.3E-6*hours_2</eqn>
+				<units>$/MWh</units>
+			</aux>
+			<aux name="Cycling-related\nvariable O&amp;M cost nuclear">
+				<doc>medium value of range 1.28 - 1.39</doc>
+				<eqn>1.335*hours_2</eqn>
+				<units>$/MWh</units>
+			</aux>
+			<aux name="Efficiency Penalty coal">
+				<eqn>0.06</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="Efficiency Penalty oil">
+				<eqn>8</eqn>
+				<units>%</units>
+			</aux>
+			<aux name="Efficiency Penalty gas">
+				<eqn>8</eqn>
+				<units>%</units>
+			</aux>
+			<aux name="CF FLEX">
+				<doc>0.5*(CFbaseload+minimum(generation))</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>0</eqn>
+			</aux>
+			<aux name="FLEX coeff">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Capacity_factor_coal-Operating_reserve_coefficient_coal)/Capacity_factor_coal</eqn>
+				<units>dmnl</units>
+			</aux>
+			<aux name="FLEX oil coeff">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Capacity_factor_oil-Operating_reserve_coefficient_oil)/Capacity_factor_oil</eqn>
+				<units>$*Million/Year</units>
+			</aux>
+			<aux name="FLEX thermal capacity">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_coal+FLEX_oil+FLEX_gas+FLEX_bio_fuel+FLEX_hydro+FLEX_nuclear</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="FLEX gas coeff">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Capacity_factor_gas-Operating_reserve_coefficient_gas)/Capacity_factor_gas</eqn>
+				<units>$*Million/Year</units>
+			</aux>
+			<aux name="FLEX nuclear coeff">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Capacity_factor_nuclear-Operating_reserve_coefficient_nuclear)/Capacity_factor_nuclear</eqn>
+			</aux>
+			<aux name="FLEX hydro coeff">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Capacity_factor_hydro-Operating_reserve_coefficient_hydro)/Capacity_factor_hydro</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="FLEX bio fuel coeff">
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>(Capacity_factor_bio_fuel-Operating_reserve_coefficient_bio_fuel)/Capacity_factor_bio_fuel</eqn>
+				<units>TWh/year</units>
+			</aux>
+			<aux name="hours 2">
+				<eqn>8760</eqn>
+				<units>hours/year</units>
+			</aux>
+			<aux name="FLEX coal">
+				<doc>Coal contribution to flexibility - parameters from MESSAGE</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_coeff*Baseload_coal*Efficiency_Penalty_coal</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="FLEX oil">
+				<doc>Coal contribution to flexibility - parameters from MESSAGE</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_oil_coeff*Baseload_oil*Efficiency_Penalty_oil</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="FLEX gas">
+				<doc>Coal contribution to flexibility - parameters from MESSAGE</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_gas_coeff*Baseload_gas*Efficiency_Penalty_gas</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="FLEX nuclear">
+				<doc>Coal contribution to flexibility - parameters from MESSAGE</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_nuclear_coeff*Baseload_nuclear</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="FLEX hydro">
+				<doc>Coal contribution to flexibility - parameters from MESSAGE</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_hydro_coeff*Baseload_hydro</eqn>
+				<units>TWh/Year</units>
+			</aux>
+			<aux name="FLEX bio fuel">
+				<doc>Coal contribution to flexibility - parameters from MESSAGE</doc>
+				<dimensions>
+					<dim name="Run"/>
+				</dimensions>
+				<eqn>FLEX_bio_fuel_coeff*Baseload_bio_fuel</eqn>
+				<units>TWh/Year</units>
 			</aux>
 		</variables>
 		<views>
@@ -17850,7 +17901,7 @@ THEN Curtailment_short
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:scroll_y="480" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1091" page_height="761" isee:page_cols="2" isee:page_rows="3" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="11pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -17984,31 +18035,12 @@ THEN Curtailment_short
 					<from>Share_of_VRE</from>
 					<to>FLEX_VRE</to>
 				</connector>
-				<aux x="397" y="1953.25" name="Operating reserve\ncoefficient bio fuel"/>
-				<aux x="404.833" y="1842" name="Operating reserve\ncoefficient hydro"/>
-				<aux x="404.833" y="1743.25" name="Operating reserve\ncoefficient nuclear"/>
-				<aux x="411.25" y="1636.58" name="Operating reserve\ncoefficient gas"/>
-				<aux x="415" y="1526.17" name="Operating reserve\ncoefficient oil"/>
-				<aux x="422.833" y="1420" name="Operating reserve\ncoefficient coal"/>
 				<aux font_style="italic" font_weight="bold" x="75.958" y="1971.25" name="bio fuel secondary energy output"/>
 				<aux font_style="italic" font_weight="bold" x="75.958" y="1860" name="Hydropower Energy Output"/>
 				<aux font_style="italic" font_weight="bold" x="75.958" y="1761.25" name="Nuclear Energy Output"/>
 				<aux font_style="italic" font_weight="bold" x="78" y="1654.58" name="Secondary Fossil Energy Output 3"/>
 				<aux font_style="italic" font_weight="bold" x="78" y="1544.17" name="Secondary Fossil Energy Output 2"/>
 				<aux font_style="italic" font_weight="bold" x="79.167" y="1448.75" name="Secondary Fossil Energy Output 1"/>
-				<aux x="558.833" y="1423" name="Capacity factor\n(fraction of\ninstalled\ncapacity) coal"/>
-				<aux x="558.833" y="1529.17" name="Capacity factor oil"/>
-				<aux x="547.25" y="1635.58" name="Capacity factor gas"/>
-				<aux x="540.833" y="1742.25" name="Capacity factor nuclear"/>
-				<aux x="540.833" y="1841" name="Capacity factor hydro"/>
-				<aux x="536" y="1953.25" name="Capacity factor bio fuel"/>
-				<aux x="707.25" y="1423" name="Cycling-related\nvariable O&amp;M cost coal"/>
-				<aux x="707.25" y="1529.17" name="Cycling-related\nvariable O&amp;M cost oil"/>
-				<aux x="707.25" y="1636.58" name="Cycling-related\nvariable O&amp;M cost gas"/>
-				<aux x="707.25" y="1743.25" name="Cycling-related\nvariable O&amp;M cost nuclear"/>
-				<aux x="840.708" y="1423" name="Efficiency Penalty coal"/>
-				<aux label_side="bottom" x="840.708" y="1523.17" name="Efficiency Penalty oil"/>
-				<aux x="840.708" y="1636.58" name="Efficiency Penalty gas"/>
 				<aux background="#F66151" x="147.25" y="1373" name="CF baseload"/>
 				<aux background="#F9F06B" x="248.25" y="1448.75" name="Baseload coal"/>
 				<connector uid="76" angle="331.599">
@@ -18064,7 +18096,6 @@ THEN Curtailment_short
 					<from>CF_baseload</from>
 					<to>Baseload_bio_fuel</to>
 				</connector>
-				<aux x="321.875" y="1373" name="CF FLEX"/>
 				<aux x="473.889" y="646.31" name="TW to GW"/>
 				<aux background="#99C1F1" x="503.833" y="840.667" name="Firm capacity requeriment"/>
 				<aux background="#99C1F1" x="503.833" y="705" name="VRE capacity value"/>
@@ -18161,154 +18192,6 @@ THEN Curtailment_short
 				<connector uid="128" angle="160.343">
 					<from>System_flexibility</from>
 					<to>vre_integration_impacts</to>
-				</connector>
-				<aux x="1005" y="1423" name="FLEX coal"/>
-				<connector uid="129" angle="31.8836">
-					<from>Baseload_coal</from>
-					<to>FLEX_coal</to>
-				</connector>
-				<connector uid="130" angle="25.0931">
-					<from>Operating_reserve_coefficient_coal</from>
-					<to>FLEX_coal</to>
-				</connector>
-				<connector uid="131" angle="24.7749">
-					<from>&quot;Capacity_factor_(fraction_of_installed_capacity)_coal&quot;</from>
-					<to>FLEX_coal</to>
-				</connector>
-				<connector uid="132" angle="33.0402">
-					<from>&quot;Cycling-related_variable_O&amp;M_cost_coal&quot;</from>
-					<to>FLEX_coal</to>
-				</connector>
-				<connector uid="133" angle="32.9691">
-					<from>Efficiency_Penalty_coal</from>
-					<to>FLEX_coal</to>
-				</connector>
-				<aux x="1005" y="1523.17" name="FLEX oil"/>
-				<aux x="1258" y="1624" name="FLEX thermal capacity"/>
-				<connector uid="134" angle="345.791">
-					<from>FLEX_coal</from>
-					<to>FLEX_thermal_capacity</to>
-				</connector>
-				<connector uid="135" angle="338.271">
-					<from>FLEX_oil</from>
-					<to>FLEX_thermal_capacity</to>
-				</connector>
-				<connector uid="136" angle="19.316">
-					<from>Baseload_oil</from>
-					<to>FLEX_oil</to>
-				</connector>
-				<connector uid="137" angle="21.174">
-					<from>Operating_reserve_coefficient_oil</from>
-					<to>FLEX_oil</to>
-				</connector>
-				<connector uid="138" angle="25.1076">
-					<from>Capacity_factor_oil</from>
-					<to>FLEX_oil</to>
-				</connector>
-				<connector uid="139" angle="30.2295">
-					<from>&quot;Cycling-related_variable_O&amp;M_cost_oil&quot;</from>
-					<to>FLEX_oil</to>
-				</connector>
-				<connector uid="140" angle="26.6103">
-					<from>Efficiency_Penalty_oil</from>
-					<to>FLEX_oil</to>
-				</connector>
-				<aux x="1005" y="1636.58" name="FLEX gas"/>
-				<connector uid="141" angle="24.3485">
-					<from>Baseload_gas</from>
-					<to>FLEX_gas</to>
-				</connector>
-				<connector uid="142" angle="24.3485">
-					<from>Operating_reserve_coefficient_gas</from>
-					<to>FLEX_gas</to>
-				</connector>
-				<connector uid="143" angle="28.4538">
-					<from>Capacity_factor_gas</from>
-					<to>FLEX_gas</to>
-				</connector>
-				<connector uid="144" angle="26.0757">
-					<from>&quot;Cycling-related_variable_O&amp;M_cost_gas&quot;</from>
-					<to>FLEX_gas</to>
-				</connector>
-				<connector uid="145" angle="22.1908">
-					<from>Efficiency_Penalty_gas</from>
-					<to>FLEX_gas</to>
-				</connector>
-				<connector uid="146" angle="350.142">
-					<from>FLEX_gas</from>
-					<to>FLEX_thermal_capacity</to>
-				</connector>
-				<aux x="1005" y="1743.25" name="FLEX nuclear"/>
-				<connector uid="147" angle="21.7764">
-					<from>Operating_reserve_coefficient_nuclear</from>
-					<to>FLEX_nuclear</to>
-				</connector>
-				<connector uid="148" angle="23.0318">
-					<from>Capacity_factor_nuclear</from>
-					<to>FLEX_nuclear</to>
-				</connector>
-				<connector uid="149" angle="25.5234">
-					<from>&quot;Cycling-related_variable_O&amp;M_cost_nuclear&quot;</from>
-					<to>FLEX_nuclear</to>
-				</connector>
-				<connector uid="150" angle="11.1956">
-					<from>FLEX_nuclear</from>
-					<to>FLEX_thermal_capacity</to>
-				</connector>
-				<aux x="1005" y="1841" name="FLEX hydro"/>
-				<aux x="1005" y="1952.25" name="FLEX bio fuel"/>
-				<connector uid="151" angle="22.8962">
-					<from>Operating_reserve_coefficient_hydro</from>
-					<to>FLEX_hydro</to>
-				</connector>
-				<connector uid="152" angle="17.3927">
-					<from>Capacity_factor_hydro</from>
-					<to>FLEX_hydro</to>
-				</connector>
-				<connector uid="153" angle="26.8825">
-					<from>Operating_reserve_coefficient_bio_fuel</from>
-					<to>FLEX_bio_fuel</to>
-				</connector>
-				<connector uid="154" angle="29.2702">
-					<from>Capacity_factor_bio_fuel</from>
-					<to>FLEX_bio_fuel</to>
-				</connector>
-				<connector uid="155" angle="40.6199">
-					<from>FLEX_hydro</from>
-					<to>FLEX_thermal_capacity</to>
-				</connector>
-				<connector uid="156" angle="28.3274">
-					<from>FLEX_bio_fuel</from>
-					<to>FLEX_thermal_capacity</to>
-				</connector>
-				<connector uid="157" angle="24.0755">
-					<from>Baseload_nuclear</from>
-					<to>FLEX_nuclear</to>
-				</connector>
-				<connector uid="158" angle="19.9831">
-					<from>Baseload_hydro</from>
-					<to>FLEX_hydro</to>
-				</connector>
-				<connector uid="159" angle="24.444">
-					<from>Baseload_bio_fuel</from>
-					<to>FLEX_bio_fuel</to>
-				</connector>
-				<aux x="648.833" y="1408.64" name="hours 2"/>
-				<connector uid="160" angle="15.0347">
-					<from>hours_2</from>
-					<to>&quot;Cycling-related_variable_O&amp;M_cost_coal&quot;</to>
-				</connector>
-				<connector uid="161" angle="310.327">
-					<from>hours_2</from>
-					<to>&quot;Cycling-related_variable_O&amp;M_cost_oil&quot;</to>
-				</connector>
-				<connector uid="162" angle="312.029">
-					<from>hours_2</from>
-					<to>&quot;Cycling-related_variable_O&amp;M_cost_gas&quot;</to>
-				</connector>
-				<connector uid="163" angle="308.96">
-					<from>hours_2</from>
-					<to>&quot;Cycling-related_variable_O&amp;M_cost_nuclear&quot;</to>
 				</connector>
 				<text_box uid="164" x="265.708" y="492" width="112.334" height="20">VRE GENERATION</text_box>
 				<text_box uid="165" x="447.666" y="489" width="112.334" height="20">Backup Capacity </text_box>
@@ -18460,6 +18343,188 @@ constraint described in section 2.3.1, which ensures sufficient system flexibili
 				<connector uid="215" angle="276.51">
 					<from>FLEX_VRE</from>
 					<to>&quot;flexible_fraction_of_non-VRE_generation&quot;</to>
+				</connector>
+				<aux x="354" y="2015.25" name="Operating reserve\ncoefficient bio fuel"/>
+				<aux x="361.833" y="1904" name="Operating reserve\ncoefficient hydro"/>
+				<aux x="361.833" y="1805.25" name="Operating reserve\ncoefficient nuclear"/>
+				<aux x="368.25" y="1698.58" name="Operating reserve\ncoefficient gas"/>
+				<aux x="372" y="1588.17" name="Operating reserve\ncoefficient oil"/>
+				<aux x="395.833" y="1420" name="Operating reserve\ncoefficient coal"/>
+				<aux x="531.833" y="1423" name="Capacity factor coal"/>
+				<aux x="515.833" y="1591.17" name="Capacity factor oil"/>
+				<aux x="504.25" y="1697.58" name="Capacity factor gas"/>
+				<aux x="497.833" y="1804.25" name="Capacity factor nuclear"/>
+				<aux x="497.833" y="1903" name="Capacity factor hydro"/>
+				<aux x="493" y="2015.25" name="Capacity factor bio fuel"/>
+				<aux x="680.25" y="1423" name="Cycling-related\nvariable O&amp;M cost coal"/>
+				<aux x="664.25" y="1591.17" name="Cycling-related\nvariable O&amp;M cost oil"/>
+				<aux x="664.25" y="1698.58" name="Cycling-related\nvariable O&amp;M cost gas"/>
+				<aux x="664.25" y="1805.25" name="Cycling-related\nvariable O&amp;M cost nuclear"/>
+				<aux x="813.708" y="1423" name="Efficiency Penalty coal"/>
+				<aux label_side="bottom" x="797.708" y="1585.17" name="Efficiency Penalty oil"/>
+				<aux x="797.708" y="1698.58" name="Efficiency Penalty gas"/>
+				<aux x="308.875" y="1324" name="CF FLEX"/>
+				<aux label_side="bottom" x="978" y="1423" name="FLEX coeff"/>
+				<connector uid="225" angle="25.0931">
+					<from>Operating_reserve_coefficient_coal</from>
+					<to>FLEX_coeff</to>
+				</connector>
+				<connector uid="226" angle="24.7749">
+					<from>Capacity_factor_coal</from>
+					<to>FLEX_coeff</to>
+				</connector>
+				<aux x="962" y="1585.17" name="FLEX oil coeff"/>
+				<aux x="1294.83" y="1743.25" name="FLEX thermal capacity"/>
+				<connector uid="227" angle="21.174">
+					<from>Operating_reserve_coefficient_oil</from>
+					<to>FLEX_oil_coeff</to>
+				</connector>
+				<connector uid="228" angle="25.1076">
+					<from>Capacity_factor_oil</from>
+					<to>FLEX_oil_coeff</to>
+				</connector>
+				<aux x="962" y="1698.58" name="FLEX gas coeff"/>
+				<connector uid="229" angle="24.0268">
+					<from>Operating_reserve_coefficient_gas</from>
+					<to>FLEX_gas_coeff</to>
+				</connector>
+				<connector uid="230" angle="28.0366">
+					<from>Capacity_factor_gas</from>
+					<to>FLEX_gas_coeff</to>
+				</connector>
+				<aux x="962" y="1805.25" name="FLEX nuclear coeff"/>
+				<connector uid="231" angle="21.7764">
+					<from>Operating_reserve_coefficient_nuclear</from>
+					<to>FLEX_nuclear_coeff</to>
+				</connector>
+				<connector uid="232" angle="23.0318">
+					<from>Capacity_factor_nuclear</from>
+					<to>FLEX_nuclear_coeff</to>
+				</connector>
+				<aux x="962" y="1903" name="FLEX hydro coeff"/>
+				<aux x="962" y="2014.25" name="FLEX bio fuel coeff"/>
+				<connector uid="233" angle="22.8962">
+					<from>Operating_reserve_coefficient_hydro</from>
+					<to>FLEX_hydro_coeff</to>
+				</connector>
+				<connector uid="234" angle="17.3927">
+					<from>Capacity_factor_hydro</from>
+					<to>FLEX_hydro_coeff</to>
+				</connector>
+				<connector uid="235" angle="26.8825">
+					<from>Operating_reserve_coefficient_bio_fuel</from>
+					<to>FLEX_bio_fuel_coeff</to>
+				</connector>
+				<connector uid="236" angle="29.2702">
+					<from>Capacity_factor_bio_fuel</from>
+					<to>FLEX_bio_fuel_coeff</to>
+				</connector>
+				<aux x="621.833" y="1408.64" name="hours 2"/>
+				<connector uid="237" angle="15.0347">
+					<from>hours_2</from>
+					<to>&quot;Cycling-related_variable_O&amp;M_cost_coal&quot;</to>
+				</connector>
+				<connector uid="238" angle="297.551">
+					<from>hours_2</from>
+					<to>&quot;Cycling-related_variable_O&amp;M_cost_oil&quot;</to>
+				</connector>
+				<connector uid="239" angle="305.161">
+					<from>hours_2</from>
+					<to>&quot;Cycling-related_variable_O&amp;M_cost_nuclear&quot;</to>
+				</connector>
+				<aux x="1105" y="1426.64" name="FLEX coal"/>
+				<connector uid="240" angle="358.238">
+					<from>FLEX_coeff</from>
+					<to>FLEX_coal</to>
+				</connector>
+				<connector uid="241" angle="24.2841">
+					<from>Efficiency_Penalty_coal</from>
+					<to>FLEX_coal</to>
+				</connector>
+				<connector uid="242" angle="325.946">
+					<from>FLEX_coal</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="243" angle="305.978">
+					<from>hours_2</from>
+					<to>&quot;Cycling-related_variable_O&amp;M_cost_gas&quot;</to>
+				</connector>
+				<aux x="1105" y="1585.17" name="FLEX oil"/>
+				<aux x="1105" y="1698.58" name="FLEX gas"/>
+				<aux x="1105" y="1805.25" name="FLEX nuclear"/>
+				<aux x="1105" y="1903" name="FLEX hydro"/>
+				<aux x="1105" y="2014.25" name="FLEX bio fuel"/>
+				<connector uid="244" angle="6.86892">
+					<from>FLEX_oil_coeff</from>
+					<to>FLEX_oil</to>
+				</connector>
+				<connector uid="245" angle="352.229">
+					<from>FLEX_gas_coeff</from>
+					<to>FLEX_gas</to>
+				</connector>
+				<connector uid="246" angle="1.86768">
+					<from>FLEX_nuclear_coeff</from>
+					<to>FLEX_nuclear</to>
+				</connector>
+				<connector uid="247" angle="2.27923">
+					<from>FLEX_hydro_coeff</from>
+					<to>FLEX_hydro</to>
+				</connector>
+				<connector uid="248" angle="7.05654">
+					<from>FLEX_bio_fuel_coeff</from>
+					<to>FLEX_bio_fuel</to>
+				</connector>
+				<connector uid="249" angle="14.8184">
+					<from>Efficiency_Penalty_oil</from>
+					<to>FLEX_oil</to>
+				</connector>
+				<connector uid="250" angle="19.8586">
+					<from>Efficiency_Penalty_gas</from>
+					<to>FLEX_gas</to>
+				</connector>
+				<connector uid="251" angle="25.1046">
+					<from>Baseload_coal</from>
+					<to>FLEX_coal</to>
+				</connector>
+				<connector uid="252" angle="14.3864">
+					<from>Baseload_oil</from>
+					<to>FLEX_oil</to>
+				</connector>
+				<connector uid="253" angle="16.3052">
+					<from>Baseload_gas</from>
+					<to>FLEX_gas</to>
+				</connector>
+				<connector uid="254" angle="18.4349">
+					<from>Baseload_nuclear</from>
+					<to>FLEX_nuclear</to>
+				</connector>
+				<connector uid="255" angle="14.9314">
+					<from>Baseload_hydro</from>
+					<to>FLEX_hydro</to>
+				</connector>
+				<connector uid="256" angle="18.4349">
+					<from>Baseload_bio_fuel</from>
+					<to>FLEX_bio_fuel</to>
+				</connector>
+				<connector uid="257" angle="348.81">
+					<from>FLEX_oil</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="261" angle="8.67235">
+					<from>FLEX_bio_fuel</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="260" angle="9.61056">
+					<from>FLEX_hydro</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="259" angle="357.703">
+					<from>FLEX_nuclear</from>
+					<to>FLEX_thermal_capacity</to>
+				</connector>
+				<connector uid="258" angle="22.5458">
+					<from>FLEX_gas</from>
+					<to>FLEX_thermal_capacity</to>
 				</connector>
 			</view>
 		</views>
